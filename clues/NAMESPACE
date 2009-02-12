@@ -1,0 +1,18 @@
+useDynLib(clues)
+
+import(stats)
+
+# functions
+export(
+  adjustedRand,
+  clues, 
+  clustering, 
+  compClust,
+  Get.CH, 
+  Get.Silhouette,
+  plotAvgCurves, 
+  plotClusters,
+  plotCurves, 
+  shrinking 
+)
+

@@ -1,0 +1,20 @@
+adjustedRand	Calculate agreement indices: Rand index, Hubert and Arabie's
+		adjusted Rand index, Morey and Agresti's adjusted Rand index,
+		Fowlkes and Mallow's index, and Jaccard index
+clues		Clustering Method Based on Local Shrinking 
+clustering      Data clustering (after data shrinking)
+compClust	Compare different partitions for a data set based on
+		agreement indices, average sihouette index and CH index
+Get.CH          Get CH index
+Get.Silhouette  Get silhouette index
+plotAvgCurves	Plot average trajectories for each cluster
+plotClusters	Plot scatter plot of clusters in specified 
+		two dimensional space
+plotCurves	Plot trajectories for each cluster
+shrinking       Data sharpening based on K-nearest neighbors
+Curve           Curve data set
+Iris            Iris data set
+Maronna         Maronna data set
+Ring            Broken-ring data set
+Ruspini         Ruspini data set
+Vowel           Vowel data set
