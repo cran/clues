@@ -59,6 +59,13 @@ CLUES: A non-parametric clustering method based on local shrinking.
 \emph{Computational Statistics & Data Analysis}, Vol. 52, issue 1, 
 pages 286-298.
 }
+\note{ 
+Occasionally, the number of clusters estimated by \code{clues} will be 
+equal to the number of data points (that is, each data point forms a cluster). 
+In this case, the estimated number of clusters was set to be equal to one. 
+And the CH index or silhouette index will be set to be equal to NULL 
+since CH index and silhouette index are not defined when the number of clusters is equal to one.
+}
 \examples{
   # ruspini data
   data(Ruspini)

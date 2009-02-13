@@ -91,7 +91,8 @@ C---------------------------------------------------------------------
 C
        implicit none
        integer IPR, N, I, NM1, IP1, J, L, K, LMI, JMK, M, JMI
-       real*8 X(1),Y(1), HOLD, MID, AMED, TT
+       integer MID
+       real*8 X(1),Y(1), HOLD, AMED, TT
        integer IU(36),IL(36) 
 C      
        IPR=6
@@ -104,9 +105,6 @@ C
        DO 60 I=2,N
          IF(X(I).NE.HOLD) GOTO 90
 60     CONTINUE
-C       WRITE(IPR, 9) "***** NON-FATAL DIAGNOSTIC--THE FIRST INPUT 
-C     1 ARGUMENT (A VECTOR) TO THE SORT   SUBROUTINE HAS ALL 
-C     1 ELEMENTS =", HOLD, "*****"
        DO 61 I=1,N
          Y(I)=X(I)
 61     CONTINUE
@@ -115,15 +113,10 @@ C     1 ELEMENTS =", HOLD, "*****"
      1 THE SORT   SUBROUTINE IS NON-POSITIVE *****"  
        WRITE(IPR,47) "***** THE VALUE OF THE ARGUMENT IS", N, "****" 
        RETURN
-C55     WRITE(IPR,18) "***** NON-FATAL DIAGNOSTIC--THE SECOND INPUT 
-C     1 ARGUMENT TO THE SORT   SUBROUTINE HAS THE VALUE 1 *****" 
-C       Y(1)=X(1)
 55       Y(1)=X(1)
        RETURN
 90     CONTINUE
-9      FORMAT(A109, E15.8,A6)
 15     FORMAT(A109)
-18     FORMAT(A109)
 47     FORMAT(A109,I8, A6)
 C
 C-----START POINT-----------------------------------------------------

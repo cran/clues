@@ -108,9 +108,6 @@ C
        DO 60 I=2,N
        IF(X(I) .NE. HOLD) GOTO 90
 60     CONTINUE
-C       WRITE(IPR, 9) "***** NON-FATAL DIAGNOSTIC--THE FIRST  INPUT 
-C     1 ARGUMENT (A VECTOR) TO THE MEDIAN SUBROUTINE HAS ALL ELEMENTS=",
-C     1 HOLD, "*****"
        XMED=X(1)
        GOTO 101
 50     WRITE(IPR,17) "***** FATAL ERROR--THE SECOND INPUT ARGUMENT TO 
@@ -118,15 +115,10 @@ C     1 HOLD, "*****"
      1 " INTERVAL *****"
        WRITE(IPR,47) "***** THE VALUE OF THE ARGUMENT IS ", N, " *****"
        RETURN
-C55     WRITE(IPR,18) "***** NON-FATAL DIAGNOSTIC--THE SECOND INPUT 
-C     1 ARGUMENT TO THE MEDIAN SUBROUTINE HAS THE VALUE 1 *****"
-C       XMED=X(1)
 55       XMED=X(1)
        GOTO 101
 90     CONTINUE
-9      FORMAT(A109, E15.8, A6)
 17     FORMAT(A109, I6)
-18     FORMAT(A109)
 47     FORMAT(A35,I8, A6) 
 C
 C-----START POINT-----------------------------------------------------

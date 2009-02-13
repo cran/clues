@@ -1,3 +1,7 @@
+# v0.3.1 created on Feb. 15, 2009 by Weiliang Qiu
+#  (1) added cluster size info in plots produced by 
+#    'plotCurves' and 'plotAvgCurves'
+#
 # plot trajectory for each cluster
 plotCurves<-function(y, mem,
                      myxlab="variable",
@@ -40,7 +44,7 @@ plotCurves<-function(y, mem,
     axis(1, at=1:nc, labels=1:nc)
     axis(2)
     box()
-    title(main="", sub=paste("cluster", i))
+    title(main="", sub=paste("cluster ", i, " (size=", size[i], ")", sep=""))
   }
   par(mfrow=c(1, 1))
 
@@ -56,6 +60,7 @@ plotAvgCurves<-function(y, mem,
 
   memGenes<-mem
   nClusters<-length(unique(mem))
+  size<-tapply(mem, mem, length)
 
   nr<-nrow(dat) # number of observations
   nc<-ncol(dat) # number of variables
@@ -85,7 +90,7 @@ plotAvgCurves<-function(y, mem,
     axis(1, at=1:nc, labels=1:nc)
     axis(2)
     box()
-    title(main="", sub=paste("cluster", i))
+    title(main="", sub=paste("cluster ", i, " (size=", size[i], ")", sep=""))
   }
   par(mfrow=c(1, 1))
 }
