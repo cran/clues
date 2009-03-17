@@ -8,7 +8,9 @@
   data matrix which is a R matrix object (for dimension > 1) or vector 
   object (for dimension=1) with rows being observations and columns being variables.
   }
-  \item{mem}{vector of the cluster membership for data points.}
+  \item{mem}{vector of the cluster membership for data points.
+    The cluster member ship takes values: \eqn{1}, \eqn{2}, \eqn{\ldots}, 
+    \eqn{g}, where \eqn{g} is the estimated number of clusters.}
   \item{myxlab}{a title for the x axis.}
   \item{myylab}{a title for the y-axis.}
 }

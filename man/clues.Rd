@@ -6,7 +6,7 @@ Automatically estimate the number of clusters for a given data set and
 get a partition.
 }
 \usage{
-clues(y, n0 = 5, alpha = 0.05, eps = 1.0e-4, itmax = 500, 
+clues(y, n0 = 5, alpha = 0.05, eps = 1.0e-4, itmax = 20, 
       K2.vec = n0, strengthMethod = "sil", strengthIni = -3, 
       disMethod ="Euclidean", plotFlag = FALSE, 
       plot.dim = c(1, 2), quiet = FALSE)
@@ -40,7 +40,9 @@ less than \code{eps}.}
 \value{
   \item{K}{number of nearest neighbors can be used to get final clustering.}
   \item{size}{vector of the number of data points for clusters.}
-  \item{mem}{vector of the cluster membership of data points.}
+  \item{mem}{vector of the cluster membership of data points. 
+    The cluster member ship takes values: \eqn{1}, \eqn{2}, \eqn{\ldots}, 
+    \eqn{g}, where \eqn{g} is the estimated number of clusters.}
   \item{g}{an estimate of the number of clusters.}
   \item{CH}{CH index value for the final partition if \code{strengthMethod} is 
 \dQuote{CH}.}

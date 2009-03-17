@@ -5,7 +5,9 @@
 \usage{plotClusters(y, mem, plot.dim = c(1, 2))}
 \arguments{
   \item{y}{data matrix with rows being a collection of observations and columns being a list of variables.}
-  \item{mem}{vector of the cluster membership of data points.}
+  \item{mem}{vector of the cluster membership of data points.
+    The cluster member ship takes values: \eqn{1}, \eqn{2}, \eqn{\ldots}, 
+    \eqn{g}, where \eqn{g} is the estimated number of clusters.}
   \item{plot.dim}{
   specifies the two dimensions to be plot. 
   }

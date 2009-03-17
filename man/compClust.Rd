@@ -17,7 +17,8 @@ compClust(y, memMat, disMethod = "Euclidean")
   }
   \item{memMat}{cluster membership matrix. Each column corresponds to a partition
   of the matrix \code{y}. The numbers of clusters for different partitions can
-  be different.}
+  be different. The cluster membership of a \eqn{g}-cluster data set should
+    take values: \eqn{1}, \eqn{2}, \eqn{\ldots}, \eqn{g}.}
   \item{disMethod}{specification of the dissimilarity measure. 
   The available measures are \dQuote{Euclidean} and \dQuote{1-corr}.
   }

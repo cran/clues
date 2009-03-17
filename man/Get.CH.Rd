@@ -8,7 +8,9 @@
   data matrix which is a R matrix object (for dimension > 1) or vector 
   object (for dimension=1) with rows be observations and columns be variables.  
   }
-  \item{mem}{vector of the cluster membership of data points.}
+  \item{mem}{vector of the cluster membership of data points.
+    The cluster member ship takes values: \eqn{1}, \eqn{2}, \eqn{\ldots}, 
+    \eqn{g}, where \eqn{g} is the estimated number of clusters.}
   \item{disMethod}{specification of the dissimilarity measure. The available measures are \dQuote{Euclidean} and \dQuote{1-corr}.}
 }
 \value{A scalar indicates CH index.}

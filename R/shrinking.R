@@ -1,5 +1,5 @@
 # shrinking clusters
-shrinking<-function(y, K, disMethod="Euclidean", eps=1.0e-4, itmax=500)
+shrinking<-function(y, K, disMethod="Euclidean", eps=1.0e-4, itmax=20)
 {
   disMethod=match.arg(disMethod, c("Euclidean", "1-corr"))
 

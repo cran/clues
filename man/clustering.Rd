@@ -34,7 +34,9 @@ To get a reasonable clustering result,
 data sharpening (shrinking) is recommended before data clustering.
 }
 \value{
-  \item{mem}{vector of the cluster membership of data points.}
+  \item{mem}{vector of the cluster membership of data points.
+    The cluster member ship takes values: \eqn{1}, \eqn{2}, \eqn{\ldots}, 
+    \eqn{g}, where \eqn{g} is the estimated number of clusters.}
   \item{size}{vector of the number of data points for clusters.}
   \item{g}{an estimate of the number of clusters.}
   \item{db}{vector of dissimilarities between consecutive data points 

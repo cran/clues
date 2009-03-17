@@ -2,7 +2,7 @@
 \alias{shrinking}
 \title{Data Sharpening Based on K-nearest Neighbors}
 \description{Data sharpening based on K-nearest neighbors.}
-\usage{shrinking(y, K, disMethod = "Euclidean", eps = 1e-04, itmax = 500)}
+\usage{shrinking(y, K, disMethod = "Euclidean", eps = 1e-04, itmax = 20)}
 \arguments{
   \item{y}{data matrix with rows being the observations and columns being variables.}
   \item{K}{number of nearest neighbors.}

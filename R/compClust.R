@@ -64,7 +64,7 @@ compClust<-function(y, memMat, disMethod="Euclidean")
     avg.sVec[i]<-Get.Silhouette(y, as.numeric(memMat[,i]),disMethod)$avg.s
     # get agreement index matrix for each agreement index
     i1<-i+1
-    if(i1 < nc)
+    if(i1 <= nc)
     { for(j in i1:nc)
       {
         RandMat[i,j]<-adjustedRand(as.numeric(memMat[,i]), as.numeric(memMat[,j]),
@@ -72,22 +72,22 @@ compClust<-function(y, memMat, disMethod="Euclidean")
         RandMat[j,i]<-RandMat[i,j]
   
         HAMat[i,j]<-adjustedRand(as.numeric(memMat[,i]), as.numeric(memMat[,j]),
-          randMethod="Rand")
+          randMethod="HA")
         HAMat[j,i]<-HAMat[i,j]
   
   
         MAMat[i,j]<-adjustedRand(as.numeric(memMat[,i]), as.numeric(memMat[,j]),
-          randMethod="Rand")
+          randMethod="MA")
         MAMat[j,i]<-MAMat[i,j]
   
   
         FMMat[i,j]<-adjustedRand(as.numeric(memMat[,i]), as.numeric(memMat[,j]),
-          randMethod="Rand")
+          randMethod="FM")
         FMMat[j,i]<-FMMat[i,j]
   
   
         JaccardMat[i,j]<-adjustedRand(as.numeric(memMat[,i]), as.numeric(memMat[,j]),
-          randMethod="Rand")
+          randMethod="Jaccard")
         JaccardMat[j,i]<-JaccardMat[i,j]
   
       }

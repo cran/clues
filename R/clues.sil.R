@@ -1,5 +1,5 @@
 # using silhouette index as the measure of the strength of the clusters
-clues.sil<-function(y, n0=5, alpha=0.05, eps=1.0e-4, itmax=500,  
+clues.sil<-function(y, n0=5, alpha=0.05, eps=1.0e-4, itmax=20,  
   K2.vec=n0, s2=-3, disMethod="Euclidean", 
   plotFlag=FALSE, plot.dim=c(1,2), quiet=FALSE)
 {
@@ -86,7 +86,7 @@ clues.sil<-function(y, n0=5, alpha=0.05, eps=1.0e-4, itmax=500,
 # if second=2, then it is the second pass
 # y --- original data
 # y2 --- data used to do shrinking and clustering
-ChooseK.sil<-function(y, y2, n0=5, alpha=0.05, eps=1.0e-4, itmax=500, 
+ChooseK.sil<-function(y, y2, n0=5, alpha=0.05, eps=1.0e-4, itmax=20, 
   second=F, K2.vec=n0, s2=-3, disMethod="Euclidean", 
   plotFlag=FALSE, plot.dim=c(1,2), quiet=FALSE)
 {
