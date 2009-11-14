@@ -5,7 +5,7 @@
 \usage{clustering(y, disMethod = "Euclidean")}
 \arguments{
   \item{y}{
-  data matrix which is a R matrix object (for dimension > 1) or vector 
+  data matrix which is an R matrix object (for dimension > 1) or vector 
   object (for dimension=1) with rows be observations and columns be variables.}
   \item{disMethod}{specification of the dissimilarity measure. The available measures are \dQuote{Euclidean} and \dQuote{1-corr}.}
   }
@@ -35,13 +35,13 @@ data sharpening (shrinking) is recommended before data clustering.
 }
 \value{
   \item{mem}{vector of the cluster membership of data points.
-    The cluster member ship takes values: \eqn{1}, \eqn{2}, \eqn{\ldots}, 
+    The cluster membership takes values: \eqn{1}, \eqn{2}, \eqn{\ldots}, 
     \eqn{g}, where \eqn{g} is the estimated number of clusters.}
   \item{size}{vector of the number of data points for clusters.}
   \item{g}{an estimate of the number of clusters.}
-  \item{db}{vector of dissimilarities between consecutive data points 
+  \item{db}{vector of dissimilarities between sorted consecutive data points 
     (c.f. details).}
-  \item{point}{vector of consecutive data points (c.f. details).}
+  \item{point}{vector of sorted consecutive data points (c.f. details).}
   \item{omin}{The minimum value of the outlier dissimilarities (c.f. details).}
 }
 \references{ 
@@ -50,16 +50,28 @@ CLUES: A non-parametric clustering method based on local shrinking.
 \emph{Computational Statistics & Data Analysis}, Vol. 52, issue 1, 
 pages 286-298.
 }
-\seealso{
-\code{\link{shrinking}}
-}
 \examples{
-  # ruspini data
-  data(Ruspini)
-  # data matrix
-  ruspini <- Ruspini$ruspini
-  
-  tt <- clustering(ruspini)
-  plotClusters(ruspini, tt$mem)
+    # Maronna data set
+    data(Maronna)
+    # data matrix
+    maronna <- Maronna$maronna
+
+    tt <- shrinking(maronna, K = 50, itmax = 20)
+    tt2 <- clustering(tt)
+
+    # Plot of disimilarities between the sorted consecutive data points
+    #     versus the sorted consecutive data points
+    # This plot can be used to assess the estimated number of clusters
+    db <- tt2$db
+    point <- tt2$point
+    n <- length(point)
+    plot(1:(n - 1), db, type = "l",
+        xlab = "sorted consecutive data points", 
+        ylab = "disimilarities between the sorted consecutive data points", 
+        xlim = c(0, n), axes = FALSE)
+    box()
+    axis(side = 2)
+    axis(side = 1, at = c(0, 1:(n - 1)), labels = point)
+
 }
 \keyword{cluster}

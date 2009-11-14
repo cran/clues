@@ -29,13 +29,18 @@ yik = eik, eik ~ N(0, 1), i = 1, ..., 100, k = 1, ..., 10.
 }
 }
 \examples{
-  data(Curve)
-
-  # data matrix
-  curve <- Curve$curve
-
-  # cluster membership
-  curve.mem <- Curve$curve.mem
+    data(Curve)
+ 
+    # data matrix
+    curve <- Curve$curve
+ 
+    # 'true' cluster membership
+    curve.mem <- Curve$curve.mem
+    # 'true' number of clusters
+    nClust <- length(unique(curve.mem))
+ 
+    # plot average trajectories
+    plotAvgCurves(curve, curve.mem)
 
 }
 \keyword{datasets}

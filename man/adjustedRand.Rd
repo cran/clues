@@ -16,11 +16,12 @@ which measure the agreement between any two partitions for a data set.
   \item{randMethod}{
     specifies the prefered external index to meaure the agreement between the
     two partitions \code{cl1} and \code{cl2}. Available indices are:
-    \dQuote{Rand} (Rand index which is also the default value), 
+    \dQuote{Rand}, 
     \dQuote{HA}  (Hubert and Arabie's adjusted Rand index),
     \dQuote{MA}  (Morey and Agresti's adjusted Rand index),
     \dQuote{FM} (Fowlkes and Mallows's index),
     \dQuote{Jaccard} (Jaccard index). 
+    By default, all 5 indices will be output.
   }
 }
 \value{Returns a vector of the index values.}
@@ -37,24 +38,15 @@ pages 286-298.
 
 }
 \examples{
-cl1 <- c(1, 1, 1, 2, 2, 2, 2, 2)
-cl2 <- c(1, 2, 1, 2, 1, 2, 1, 3)
-adjustedRand(cl1, cl2)
-
-# perfect agreement
-cl1 <- c(1, 1, 2, 2)
-cl2 <- cl1
-adjustedRand(cl1, cl2)
-
-# Ruspini data
-data(Ruspini)
-ruspini <- Ruspini$ruspini
-# cluster membership
-ruspini.mem <- Ruspini$ruspini.mem
-
-# partition by clues
-cl2 <- clues(ruspini, quiet = TRUE)$mem
-adjustedRand(ruspini.mem, cl2)
+    cl1 <- c(1, 1, 1, 2, 2, 2, 2, 2)
+    cl2 <- c(1, 2, 1, 2, 1, 2, 1, 3)
+    adjustedRand(cl1, cl2)
+    
+    # perfect agreement
+    cl1 <- c(1, 1, 2, 2)
+    cl2 <- cl1
+    adjustedRand(cl1, cl2)
+    
 }
 \keyword{cluster}
 

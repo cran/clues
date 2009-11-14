@@ -23,80 +23,76 @@
 #           for the data matrix 'y'
 # disMethod -- measure of the dissimilarity between data points
 #
-compClust<-function(y, memMat, disMethod="Euclidean")
+compClust <- function(y, memMat, disMethod = "Euclidean")
 {
-  disMethod=match.arg(disMethod, c("Euclidean", "1-corr"))
-
-  nc<-ncol(memMat)
-
-  str<-colnames(memMat)
-
-  avg.sVec<-rep(0, nc)
-  names(avg.sVec)<-str
-
-  CHVec<-rep(0, nc)
-  names(CHVec)<-str
-
-  RandMat<-matrix(1, nrow=nc, ncol=nc)
-  rownames(RandMat)<-str
-  colnames(RandMat)<-str
-
-  HAMat<-matrix(1, nrow=nc, ncol=nc)
-  rownames(HAMat)<-str
-  colnames(HAMat)<-str
-
-  MAMat<-matrix(1, nrow=nc, ncol=nc)
-  rownames(MAMat)<-str
-  colnames(MAMat)<-str
-
-  FMMat<-matrix(1, nrow=nc, ncol=nc)
-  rownames(FMMat)<-str
-  colnames(FMMat)<-str
-
-  JaccardMat<-matrix(1, nrow=nc, ncol=nc)
-  rownames(JaccardMat)<-str
-  colnames(JaccardMat)<-str
-
-  # obtain the average silhouette index and CH index for each partition
-  for(i in 1:nc)
-  {
-    CHVec[i]<-Get.CH(y, as.numeric(memMat[,i]),disMethod)
-    avg.sVec[i]<-Get.Silhouette(y, as.numeric(memMat[,i]),disMethod)$avg.s
-    # get agreement index matrix for each agreement index
-    i1<-i+1
-    if(i1 <= nc)
-    { for(j in i1:nc)
-      {
-        RandMat[i,j]<-adjustedRand(as.numeric(memMat[,i]), as.numeric(memMat[,j]),
-          randMethod="Rand")
-        RandMat[j,i]<-RandMat[i,j]
-  
-        HAMat[i,j]<-adjustedRand(as.numeric(memMat[,i]), as.numeric(memMat[,j]),
-          randMethod="HA")
-        HAMat[j,i]<-HAMat[i,j]
-  
-  
-        MAMat[i,j]<-adjustedRand(as.numeric(memMat[,i]), as.numeric(memMat[,j]),
-          randMethod="MA")
-        MAMat[j,i]<-MAMat[i,j]
-  
-  
-        FMMat[i,j]<-adjustedRand(as.numeric(memMat[,i]), as.numeric(memMat[,j]),
-          randMethod="FM")
-        FMMat[j,i]<-FMMat[i,j]
-  
-  
-        JaccardMat[i,j]<-adjustedRand(as.numeric(memMat[,i]), as.numeric(memMat[,j]),
-          randMethod="Jaccard")
-        JaccardMat[j,i]<-JaccardMat[i,j]
-  
-      }
+    disMethod <- match.arg(disMethod, c("Euclidean", "1-corr"))
+ 
+    nc <- ncol(memMat)
+ 
+    str <- colnames(memMat)
+ 
+    avg.sVec <- rep(0, nc)
+    names(avg.sVec) <- str
+ 
+    CHVec <- rep(0, nc)
+    names(CHVec) <- str
+ 
+    RandMat <- matrix(1, nrow = nc, ncol = nc)
+    rownames(RandMat) <- str
+    colnames(RandMat) <- str
+ 
+    HAMat <- matrix(1, nrow = nc, ncol = nc)
+    rownames(HAMat) <- str
+    colnames(HAMat) <- str
+ 
+    MAMat <- matrix(1, nrow = nc, ncol = nc)
+    rownames(MAMat) <- str
+    colnames(MAMat) <- str
+ 
+    FMMat <- matrix(1, nrow = nc, ncol = nc)
+    rownames(FMMat) <- str
+    colnames(FMMat) <- str
+ 
+    JaccardMat <- matrix(1, nrow = nc, ncol = nc)
+    rownames(JaccardMat) <- str
+    colnames(JaccardMat) <- str
+ 
+    # obtain the average silhouette index and CH index for each partition
+    for(i in 1:nc)
+    {
+        CHVec[i] <- get_CH(y, as.numeric(memMat[, i]), disMethod)
+        avg.sVec[i] <- get_Silhouette(y, as.numeric(memMat[, i]), disMethod)$avg.s
+        # get agreement index matrix for each agreement index
+        i1 <- i + 1
+        if(i1 <= nc)
+        { for(j in i1:nc)
+            {
+                RandMat[i, j] <- adjustedRand(as.numeric(memMat[, i]), 
+                  as.numeric(memMat[, j]), randMethod = "Rand")
+                RandMat[j, i] <- RandMat[i, j]
+               
+                HAMat[i,j] <- adjustedRand(as.numeric(memMat[, i]), 
+                  as.numeric(memMat[, j]), randMethod = "HA")
+                HAMat[j, i] <- HAMat[i, j]
+               
+                MAMat[i, j] <- adjustedRand(as.numeric(memMat[, i]), 
+                  as.numeric(memMat[, j]), randMethod = "MA")
+                MAMat[j, i] <- MAMat[i, j]
+               
+                FMMat[i, j] <- adjustedRand(as.numeric(memMat[, i]), 
+                  as.numeric(memMat[, j]), randMethod = "FM")
+                FMMat[j, i] <- FMMat[i, j]
+               
+                JaccardMat[i, j] <- adjustedRand(as.numeric(memMat[, i]), 
+                  as.numeric(memMat[, j]), randMethod = "Jaccard")
+                JaccardMat[j, i] <- JaccardMat[i, j]
+            }
+        }
     }
-  }
-
-  res<-list(avg.s=avg.sVec, CH=CHVec, Rand=RandMat, HA=HAMat, MA=MAMat,
-    FM=FMMat, Jaccard=JaccardMat)
-
-  return(res)
+ 
+    res <- list(avg.s = avg.sVec, CH = CHVec, Rand = RandMat, 
+      HA = HAMat, MA = MAMat, FM = FMMat, Jaccard = JaccardMat)
+ 
+    return(res)
 }
 

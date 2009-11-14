@@ -12,8 +12,8 @@ compClust(y, memMat, disMethod = "Euclidean")
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{y}{ 
-  data matrix which is a R matrix object (for dimension > 1) or vector 
-  object (for dimension=1) with rows being observations and columns being variables.
+  data matrix which is an R matrix object (for dimension > 1) or vector 
+  object (for dimension = 1) with rows being observations and columns being variables.
   }
   \item{memMat}{cluster membership matrix. Each column corresponds to a partition
   of the matrix \code{y}. The numbers of clusters for different partitions can
@@ -62,35 +62,31 @@ pages 286-298.
 }
 \examples{
 
-  # ruspini data
-  data(Ruspini)
-  # data matrix
-  ruspini <- Ruspini$ruspini
-  ruspini.mem <- Ruspini$ruspini.mem
-    
-  res.CH <- clues(ruspini, strengthMethod = "CH", quiet = TRUE)
-  res.sil <- clues(ruspini, strengthMethod = "sil", quiet = TRUE)
-  res.km.HW <- kmeans(ruspini, 4, algorithm = "Hartigan-Wong")
-  res.km.L <- kmeans(ruspini, 4, algorithm = "Lloyd")
-  res.km.F <- kmeans(ruspini, 4, algorithm = "Forgy")
-  res.km.M <- kmeans(ruspini, 4, algorithm = "MacQueen")
+    # Maronna data set
+    data(Maronna)
+    # data matrix
+    maronna <- Maronna$maronna
+    # cluster membership
+    maronna.mem <- Maronna$maronna.mem    
 
-  memMat <- cbind(ruspini.mem, res.CH$mem, res.sil$mem, res.km.HW$cluster,
-    res.km.L$cluster, res.km.F$cluster, res.km.M$cluster) 
+    # partition by clues and kmeans
+    res_CH <- clues(maronna, strengthMethod = "CH", quiet = TRUE)
+    res_sil <- clues(maronna, strengthMethod = "sil", quiet = TRUE)
+    res_km_HW <- kmeans(maronna, 4, algorithm = "Hartigan-Wong")
+    res_km_L <- kmeans(maronna, 4, algorithm = "Lloyd")
+    res_km_F <- kmeans(maronna, 4, algorithm = "Forgy")
+    res_km_M <- kmeans(maronna, 4, algorithm = "MacQueen")
+ 
+    memMat <- cbind(maronna.mem, res_CH$mem, res_sil$mem, 
+        res_km_HW$cluster, res_km_L$cluster, 
+        res_km_F$cluster, res_km_M$cluster) 
+ 
+    colnames(memMat) <- c("true", "clues_CH", "clues_sil", 
+        "km_HW", "km_L", "km_F", "km_M")
+ 
+    res <- compClust(maronna, memMat)
 
-  colnames(memMat) <- c("true", "clues.CH", "clues.sil", "km.HW", "km.L", "km.F",
-    "km.M")
-
-  res <- compClust(ruspini, memMat)
-  round(res$avg.s, 1)
-  round(res$CH, 1)
-  round(res$Rand, 1)
-  round(res$HA, 1)
-  round(res$MA, 1)
-  round(res$FM, 1)
-  round(res$Jaccard, 1)
+    print(sapply(res, function(x) {round(x,1)}))
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ cluster }

@@ -5,16 +5,20 @@ clues		Clustering Method Based on Local Shrinking
 clustering      Data clustering (after data shrinking)
 compClust	Compare different partitions for a data set based on
 		agreement indices, average sihouette index and CH index
-Get.CH          Get CH index
-Get.Silhouette  Get silhouette index
-plotAvgCurves	Plot average trajectories for each cluster
-plotClusters	Plot scatter plot of clusters in specified 
-		two dimensional space
+get_CH          Get CH index
+get_Silhouette  Get silhouette index
+plotAvgCurves	Average trajectory plot for each cluster
+plotClusters	Pair-wise scatter plots of clusters in specified 
+		dimensions
 plotCurves	Plot trajectories for each cluster
 shrinking       Data sharpening based on K-nearest neighbors
+
+plot.clues	Plot Method for 'clues' Objects
+print.clues     Print Method for 'clues' Objects
+summary.clues   Summary Method for 'clues' Objects
+
+	  DATASETS
 Curve           Curve data set
-Iris            Iris data set
 Maronna         Maronna data set
 Ring            Broken-ring data set
-Ruspini         Ruspini data set
 Vowel           Vowel data set

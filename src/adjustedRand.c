@@ -43,95 +43,95 @@ cluster analysis},
 void adjustedRand(int *cl1, int *cl1u, int *cl2, int *cl2u, int *m1, int *m2, 
 		  int *n, int *flag, double *r12)
 {
-  int i, j, t, r, *nmatrix;
-  int mm1, mm2, nn, fflag;
-  double a, b, c, d, numer, denom; 
-  double *nc, *nr, ni_2, n_j2, nt, n_c, nij_2;
-
-  mm1=*m1; mm2=*m2; nn=*n; fflag=*flag;
-
-  nmatrix=(int *)malloc((size_t)(mm1*mm2*sizeof(int)));
-  nc=(double *)malloc((size_t)(mm2*sizeof(double)));
-  nr=(double *)malloc((size_t)(mm1*sizeof(double)));
-
-  a = 0.0; b = 0.0; c = 0.0; d = 0.0;
-  for(t = 0; t < nn ; t ++){
-    for(r = t+1; r < nn; r ++){
-      if((cl1[t] == cl1[r]) && (cl2[t] == cl2[r])){
-        a = a + 1.0;
-      } else if((cl1[t] == cl1[r]) && (cl2[t] != cl2[r])){
-        b = b + 1.0;
-      } else if((cl1[t] != cl1[r]) && (cl2[t] == cl2[r])){
-        c = c + 1.0;
-      } else{
-        d = d + 1.0;
-      }
-    }
-  }
-  // get nij
-  for(t = 0; t < mm1; t ++){
-    for(r = 0; r < mm2; r ++){
-      nmatrix[t*mm2+r] = 0;
-      for(i = 0; i < nn; i ++){
-        if((cl1[i] == cl1u[t]) && (cl2[i] == cl2u[r])){
-          nmatrix[t*mm2+r] += 1;
+    int i, j, t, r, *nmatrix;
+    int mm1, mm2, nn, fflag;
+    double a, b, c, d, numer, denom; 
+    double *nc, *nr, ni_2, n_j2, nt, n_c, nij_2;
+ 
+    mm1 = *m1; mm2 = *m2; nn = *n; fflag = *flag;
+ 
+    nmatrix = (int *)malloc((size_t)(mm1 * mm2 * sizeof(int)));
+    nc = (double *)malloc((size_t)(mm2 * sizeof(double)));
+    nr = (double *)malloc((size_t)(mm1 * sizeof(double)));
+ 
+    a = 0.0; b = 0.0; c = 0.0; d = 0.0;
+    for(t = 0; t < nn ; t ++){
+        for(r = t + 1; r < nn; r ++){
+            if((cl1[t] == cl1[r]) && (cl2[t] == cl2[r])){
+                a = a + 1.0;
+            } else if((cl1[t] == cl1[r]) && (cl2[t] != cl2[r])){
+                b = b + 1.0;
+            } else if((cl1[t] != cl1[r]) && (cl2[t] == cl2[r])){
+                c = c + 1.0;
+            } else{
+                d = d + 1.0;
+            }
         }
-      }
     }
-  }
-
-  /* nij_2= \sum_{i=1}^{m_1}\sum_{j=1}^{m_2} n_{ij}^2 */
-  /* nr[i]= \sum_{j=1}^{m_2} n_{ij} */
-  nij_2 = 0.0;
-  for(i = 0; i < mm1; i ++){
-    nr[i] = 0; 
+    // get nij
+    for(t = 0; t < mm1; t ++){
+        for(r = 0; r < mm2; r ++){
+            nmatrix[t * mm2 + r] = 0;
+            for(i = 0; i < nn; i ++){
+                if((cl1[i] == cl1u[t]) && (cl2[i] == cl2u[r])){
+                    nmatrix[t * mm2 + r] += 1;
+                }
+            }
+        }
+    }
+ 
+    /* nij_2= \sum_{i=1}^{m_1}\sum_{j=1}^{m_2} n_{ij}^2 */
+    /* nr[i]= \sum_{j=1}^{m_2} n_{ij} */
+    nij_2 = 0.0;
+    for(i = 0; i < mm1; i ++){
+        nr[i] = 0; 
+        for(j = 0; j < mm2; j ++){
+            nr[i] += nmatrix[i * mm2 + j];
+            nij_2 += pow(nmatrix[i * mm2 + j],2);
+        }
+    }
+ 
+    /* nc[j]= \sum_{i=1}^{m_1} n_{ij} */
+    for(i = 0; i < mm2; i ++){
+        nc[i] = 0; 
+        for(j = 0; j < mm1; j ++){
+            nc[i] += nmatrix[j * mm2 + i];
+        }
+    }
+ 
+    /* ni_2=\sum_{i=1}^{m_1} n_{i.}^2 */
+    /* nt=\sum_{i=1}^{m_1}\sum_{j=1}^{m_2} n_{ij} */
+    ni_2 = 0.0; n_j2 = 0.0; nt = 0.0;
+    for(i = 0; i < mm1; i ++){
+        nt += nr[i];
+        ni_2 += nr[i] * nr[i];
+    }
+    /* n_j2=\sum_{j=1}^{m_2} n_{.j}^2 */
     for(j = 0; j < mm2; j ++){
-      nr[i] += nmatrix[i*mm2+j];
-      nij_2 += pow(nmatrix[i*mm2+j],2);
+        n_j2 += nc[j] * nc[j];
     }
-  }
-
-  /* nc[j]= \sum_{i=1}^{m_1} n_{ij} */
-  for(i = 0; i < mm2; i ++){
-    nc[i] = 0; 
-    for(j = 0; j < mm1; j ++){
-      nc[i] += nmatrix[j*mm2+i];
+ 
+    if(fflag == 2){ //Hubert and Arabie
+        n_c = ( nt * (nt * nt + 1.0) - (nt + 1.0) * (ni_2 + n_j2) + 2.0 * ni_2 * n_j2 / nt ) / (2.0 * (nt - 1.0));
+        numer = a + d - n_c;
+        denom = a + b + c + d - n_c;
+        if(denom < 1.0e-10)
+        { *r12 = 1.0; } 
+        else { *r12 = (a + d - n_c) / (a + b + c + d - n_c); }
+    } else if(fflag == 3) { //Morey and Agresti
+        n_c = nt * (nt - 1.0) / 2.0 - (ni_2 + n_j2) / 2.0 + ni_2 * n_j2 / (nt * nt);
+        numer = a + d - n_c;
+        denom = a + b + c + d - n_c;
+        if(denom < 1.0e-10)
+        { *r12 = 1.0; } 
+        else { *r12 = (a + d - n_c) / (a + b + c + d - n_c); }
+    } else if(fflag == 1) { // Rand
+        *r12 = (a + d) / (a + b + c + d);
+    } else if(fflag == 4) { //Fowlkes and Mallows
+        *r12 = a / sqrt((a + b) * (a + c));
+    } else if(fflag == 5) { //Jaccard
+        *r12 = a / (a + b + c);
     }
-  }
-
-  /* ni_2=\sum_{i=1}^{m_1} n_{i.}^2 */
-  /* nt=\sum_{i=1}^{m_1}\sum_{j=1}^{m_2} n_{ij} */
-  ni_2 = 0.0; n_j2 = 0.0; nt = 0.0;
-  for(i = 0; i < mm1; i ++){
-    nt += nr[i];
-    ni_2 += nr[i] * nr[i];
-  }
-  /* n_j2=\sum_{j=1}^{m_2} n_{.j}^2 */
-  for(j = 0; j < mm2; j ++){
-    n_j2 += nc[j] * nc[j];
-  }
-
-  if(fflag==2){ //Hubert and Arabie
-    n_c = ( nt*(nt*nt+1.0)-(nt+1.0)*(ni_2+n_j2)+2.0*ni_2*n_j2/nt ) / (2.0*(nt-1.0));
-    numer = a+d-n_c;
-    denom = a+b+c+d-n_c;
-    if(denom<1.0e-10)
-    { *r12 = 1.0; } 
-    else { *r12 = (a+d-n_c)/(a+b+c+d-n_c); }
-  } else if(fflag==3) { //Morey and Agresti
-    n_c = nt*(nt-1.0)/2.0-(ni_2+n_j2)/2.0+ni_2*n_j2/(nt*nt);
-    numer = a+d-n_c;
-    denom = a+b+c+d-n_c;
-    if(denom<1.0e-10)
-    { *r12 = 1.0; } 
-    else { *r12 = (a+d-n_c)/(a+b+c+d-n_c); }
-  } else if(fflag==1) { // Rand
-    *r12 = (a+d)/(a+b+c+d);
-  } else if(fflag==4) { //Fowlkes and Mallows
-    *r12 = a/sqrt((a+b)*(a+c));
-  } else if(fflag==5) { //Jaccard
-    *r12 = a/(a+b+c);
-  }
-  return;
+    return;
 }
 

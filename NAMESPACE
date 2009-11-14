@@ -1,6 +1,7 @@
 useDynLib(clues)
 
 import(stats)
+importFrom(utils, menu)
 
 # functions
 export(
@@ -8,11 +9,19 @@ export(
   clues, 
   clustering, 
   compClust,
-  Get.CH, 
-  Get.Silhouette,
+  get_CH, 
+  get_Silhouette,
   plotAvgCurves, 
   plotClusters,
   plotCurves, 
   shrinking 
 )
+
+
+###---- Methods ---- all documented but not exported
+
+S3method(plot, clues)
+S3method(print, clues)
+S3method(print, summary.clues)
+S3method(summary, clues)
 

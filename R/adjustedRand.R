@@ -9,58 +9,56 @@
 # flag = 3 --- Morey and Agresti's adjusted Rand index
 # flag = 4 --- Fowlkes and Mallows's index
 # flag = 5 --- Jaccard index
-adjustedRand<-function(cl1, cl2,
-              randMethod=c("Rand","HA", "MA", "FM", "Jaccard"))
+adjustedRand <- function(cl1, cl2,
+    randMethod = c("Rand","HA", "MA", "FM", "Jaccard"))
 {
-  if(!is.vector(cl1)){
-    stop("cl1 is not a vector!\n");
-  }
-  if(!is.vector(cl2)){
-    stop("cl2 is not a vector!\n");
-  }
-  if(length(cl1) != length(cl2)){
-    stop("two vectors have different lengths!\n");
-  }
-
-  len<-length(randMethod)
-  if(len == 0)
-  { stop("The argument 'randMethod' is empty!\n") }
-
-  # unique values of elements in 'cl1'
-  cl1u<-unique(cl1)
-  # number of clusters in partition 1
-  m1<-length(cl1u)
-  
-  # unique values of elements in 'cl2'
-  cl2u<-unique(cl2)
-  # number of clusters in partition 2
-  m2<-length(cl2u)
+    if(!is.vector(cl1)){
+        stop("cl1 is not a vector!\n");
+    }
+    if(!is.vector(cl2)){
+        stop("cl2 is not a vector!\n");
+    }
+    if(length(cl1) != length(cl2)){
+        stop("two vectors have different lengths!\n");
+    }
  
-  n<-as.integer(length(cl1))
-  m1<-as.integer(m1)
-  m2<-as.integer(m2)
-
-  cl1 <- as.integer(cl1) 
-  cl1u <- as.integer(cl1u)
-  cl2 <- as.integer(cl2) 
-  cl2u <- as.integer(cl2u)
-
-  randVec<-rep(0, len) 
-  names(randVec)<-randMethod
-  for(i in 1:len)
-  {
-    randMethod[i]=match.arg(arg=randMethod[i], 
-             choices=c("Rand","HA", "MA", "FM", "Jaccard"))
-
-    flag<-match(randMethod[i], 
-                c("Rand","HA", "MA", "FM", "Jaccard"))
+    len <- length(randMethod)
+    if(len == 0)
+    { stop("The argument 'randMethod' is empty!\n") }
+ 
+    # unique values of elements in 'cl1'
+    cl1u <- unique(cl1)
+    # number of clusters in partition 1
+    m1 <- length(cl1u)
+    
+    # unique values of elements in 'cl2'
+    cl2u <- unique(cl2)
+    # number of clusters in partition 2
+    m2 <- length(cl2u)
   
-    flag<-as.integer(flag)
-  
-    c.res<-.C("adjustedRand",cl1, cl1u, cl2, cl2u, m1, m2, n, flag,
-              r=as.double(0)) 
-    randVec[i]<-c.res$r
-  }
-  return(randVec)
+    n <- length(cl1)
+    randVec <- rep(0, len) 
+    names(randVec) <- randMethod
+    for(i in 1:len)
+    {
+        randMethod[i] <- match.arg(arg = randMethod[i], 
+            choices = c("Rand","HA", "MA", "FM", "Jaccard"))
+       
+        flag <- match(randMethod[i], 
+            c("Rand","HA", "MA", "FM", "Jaccard"))
+     
+        c.res <- .C("adjustedRand", 
+            as.integer(cl1), 
+            as.integer(cl1u), 
+            as.integer(cl2), 
+            as.integer(cl2u), 
+            as.integer(m1), 
+            as.integer(m2), 
+            as.integer(n), 
+            as.integer(flag),
+            r = as.double(0)) 
+        randVec[i] <- c.res$r
+    }
+    return(randVec)
 }
 

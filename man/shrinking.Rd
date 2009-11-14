@@ -15,17 +15,16 @@ less than \code{eps}.}
 move toward the locally most dense data point by this shrinking process.
 }
 \value{Sharpened data set.}
-\seealso{
-\code{\link{clustering}}
-}
 \examples{
-  # ruspini data
-  data(Ruspini)
-  # data matrix
-  ruspini <- Ruspini$ruspini
-  
-  tt <- shrinking(ruspini, K = 25)
-  tt2 <- clustering(tt)
-  plotClusters(ruspini, tt2$mem)
+    # Maronna data set
+    data(Maronna)
+    # data matrix
+    maronna <- Maronna$maronna
+
+    # cluster membership
+    maronna.mem <- Maronna$maronna.mem
+
+    tt <- shrinking(maronna, K = 5, itmax=1)
+    plotClusters(tt, maronna.mem)
 }
 \keyword{cluster}% at least one, from doc/KEYWORDS

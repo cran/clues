@@ -1,15 +1,15 @@
-\name{Get.Silhouette}
-\alias{Get.Silhouette}
+\name{get_Silhouette}
+\alias{get_Silhouette}
 \title{Compute Silhouette Index}
 \description{Compute Silhouette index for a given partition of a data set.}
-\usage{Get.Silhouette(y, mem, disMethod = "Euclidean")}
+\usage{get_Silhouette(y, mem, disMethod = "Euclidean")}
 \arguments{
   \item{y}{
-  data matrix which is a R matrix object (for dimension > 1) or vector 
-  object (for dimension=1) with rows be observations and columns be variables.  
+  data matrix which is an R matrix object (for dimension > 1) or vector 
+  object (for dimension = 1) with rows be observations and columns be variables.  
   }
   \item{mem}{vector of the cluster membership of data points.
-    The cluster member ship takes values: \eqn{1}, \eqn{2}, \eqn{\ldots}, 
+    The cluster membership takes values: \eqn{1}, \eqn{2}, \eqn{\ldots}, 
     \eqn{g}, where \eqn{g} is the estimated number of clusters.}
   \item{disMethod}{specification of the dissimilarity measure. The available measures are \dQuote{Euclidean} and \dQuote{1-corr}.}
 }
@@ -31,13 +31,14 @@ CLUES: A non-parametric clustering method based on local shrinking.
 pages 286-298.
 }
 \examples{
-# ruspini data
-data(Ruspini)
-# data matrix
-ruspini <- Ruspini$ruspini
-mem <- Ruspini$ruspini.mem
- 
-tt <- Get.Silhouette(ruspini, mem)
-tt$avg.s
+    data(Maronna)
+    # data matrix
+    maronna <- Maronna$maronna
+
+    # cluster membership
+    maronna.mem <- Maronna$maronna.mem
+     
+    tt <- get_Silhouette(maronna, maronna.mem)
+    tt$avg.s
 }
 \keyword{cluster}
