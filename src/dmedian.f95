@@ -102,7 +102,7 @@ subroutine dmedian(x, n, iwrite, xmed)
         enddo
         if (icheck) then
             call dsort(x, n, y)
-            iflag = n - (n / 2) * 2
+            iflag = mod(n, 2)
             nmid = n / 2
             nmidp1 = nmid + 1 
             if(iflag == 0) xmed = (y(nmid) + y(nmidp1)) / 2.0

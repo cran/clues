@@ -5,7 +5,8 @@
 \usage{
   plotClusters(y, mem, plot.dim = NULL,
       xlab = NULL, ylab = NULL,
-      xlim = NULL, ylim = NULL, cex = NULL, ...)
+      xlim = NULL, ylim = NULL, cex = NULL, 
+      cex.points = 1, ...)
 
 }
 \arguments{
@@ -29,6 +30,8 @@ then pair-wise scatter plots of all dimensions will be plotted.
     specified by \code{plot.dim}.} 
   \item{cex}{A numerical value giving the amount by which plotting text
           and symbols should be magnified relative to the default. (see \code{\link{par}}). If \code{cex = NULL}, then \code{cex} will be set to be 2.}
+  \item{cex.points}{A numerical value indicating the pointsize for points in
+clusters 2, 3, ..., g. Note points in cluster 1 won't be affected. This will help to visualize the overlap among clusters.}
   \item{...}{graphical parameters (see \code{\link{par}}).}
 }
 \references{

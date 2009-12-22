@@ -48,35 +48,36 @@ subroutine clustering(dat, nObs, nObs1, nVars, disMethod2, points, &
     sumS = sum(S)
     db(1:nObs1) = S(1:nObs1)
     
-    ! Step 2
+    ! Step 2. initialization
     myt = 1
     points(myt) = 1
     S(myt) = 0
     
-    ! Step 3
+    ! Step 3. get db ( (n-1)x1) vector) recording the distance
+    !     between a point and its nearest neighbor point.
+    !     The process will start from the first data point (denoted as p0).
+    !     Then find its nearest neighbor point (denoted as p1) and
+    !     record the distance to db[1]. Then find the nearest neighobr
+    !     point (denoted as p2) of p1. record the distance to db[2].
+    !     and so on.
+    !
     do while(sumS > 0)
+        ! find the nearest neighbor x_{\ell} \in S* of 
+        ! the data point x_{point_t}  
         nSstar = 0
         do i = 1, nObs
             if (S(i) > 0) then
                 nSstar = nSstar + 1
                 ! set of remaining points            
                 Sstar(nSstar) = S(i)
+                dat2(nSstar, 1:nVars) = dat(S(i), 1:nVars)
             endif
         end do
-     
-        ! find the nearest neighbor x_{\ell} \in S* of 
-        ! the data point x_{point_t}  
-        i = points(myt) 
-        obsi = dat(i, 1:nVars)
-        do k = 1, nSstar
-            m1 = Sstar(k)
-            dat2(k, 1:nVars) = dat(m1, 1:nVars)
-        end do        
-     
+ 
         ! find 'nNei2' nearest neighbor of obsi        
+        obsi = dat(points(myt), 1:nVars)
         call dist(dat2, obsi, nObs, nVars, nSstar, nNei2, disMethod2, kList, dk)
-        ell = kList(1)
-        ell = Sstar(ell)
+        ell = Sstar(kList(1))
         db(myt) = dk(1)
         myt = myt + 1
         points(myt) = ell
@@ -124,7 +125,7 @@ subroutine clustering(dat, nObs, nObs1, nVars, disMethod2, points, &
     ! outliers are defined as db(k)>q3+1.5*IQR or db(k)<q1-1.5*IQR      
     nOutliers = count((db > upp) .or. (db < low))
     
-    ! Step 5
+    ! Step 5. check if there is any cluster structure
     if (nOutliers == 0) then
         mem = 1
         nClusters = 1
@@ -139,16 +140,16 @@ subroutine clustering(dat, nObs, nObs1, nVars, disMethod2, points, &
         L1 = 1
         L2 = 2
         do while (L2 > L1) 
-            ! Step 7
+            ! Step 7. get number of clusters
             if (db(myt) >= omin) then
                 nClusters = nClusters + 1
             endif
-            ! Step 8          
+            ! Step 8. get cluster membership          
             m1 = myt + 1
             k = points(m1)
             mem(k) = nClusters
             myt = myt + 1
-            ! Step 9
+            ! Step 9. all data points have been assigned membership. stop 
             if (myt >= nObs) then
                 exit
             endif

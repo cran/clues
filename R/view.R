@@ -126,7 +126,8 @@ plotAvgCurves <- function(y, mem,
 
 plotClusters <- function(y, mem, plot.dim = NULL, 
     xlab = NULL, ylab = NULL,
-    xlim = NULL, ylim = NULL, cex = NULL, ...)
+    xlim = NULL, ylim = NULL, cex = NULL, 
+    cex.points = 1, ...)
 {
     if(!is.matrix(y))
     { y <- matrix(y, ncol = 1) }
@@ -143,7 +144,7 @@ plotClusters <- function(y, mem, plot.dim = NULL,
         if(nPlot == 2)
         { 
             plotClusters.default(y, mem, plot.dim, xlab, ylab,
-              xlim, ylim, cex, ...)
+              xlim, ylim, cex.points, ...)
         } else {
             tmp <- as.vector(y[, plot.dim])
             mylim <- range(tmp)
@@ -180,7 +181,7 @@ plotClusters <- function(y, mem, plot.dim = NULL,
                             labels = varNames[i], cex = cex, ...)
                     } else {
                         plotClusters.default(y, mem, plot.dim = c(i, j), 
-                          xlab, ylab, xlim, ylim, cex, ...)
+                          xlab, ylab, xlim, ylim, cex.points, ...)
                     }
                 }
             }
@@ -193,7 +194,8 @@ plotClusters <- function(y, mem, plot.dim = NULL,
 
  
 plotClusters.default <- function(y, mem, plot.dim = c(1, 2), 
-    xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL, cex = NULL, ...)
+    xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,  
+    cex.points = 1, ...)
 {
     if(!is.matrix(y))
     { y <- matrix(y, ncol = 1) }
@@ -225,10 +227,12 @@ plotClusters.default <- function(y, mem, plot.dim = c(1, 2),
         {   for(i in 2:g)
             {   if(sum(mem == umem[i]) == 1)
                 {   points(y[mem == umem[i], plot.dim[1]], y[mem == umem[i], 
-                    plot.dim[2]], col = umem[i], pch = umem[i], ...) 
+                    plot.dim[2]], col = umem[i], pch = umem[i], 
+                    cex = cex.points, ...) 
                 } else { 
                     points(y[mem == umem[i], plot.dim], 
-                    col = umem[i], pch = umem[i], ...) 
+                    col = umem[i], pch = umem[i], 
+                    cex = cex.points, ...) 
                 }
             }
         }
