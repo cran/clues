@@ -1,0 +1,664 @@
+\documentclass[nojss, shortnames]{jss}
+\usepackage{thumbpdf}
+%% need no \usepackage{Sweave.sty}
+\SweaveOpts{engine = R, eps = FALSE}
+<<preliminaries, echo=FALSE, results=hide>>=
+options(prompt = "R> ")
+@
+
+%\VignetteIndexEntry{clues: An R Package for Nonparametric Clustering Based on Local Shrinking}
+%\VignetteDepends{clues,cluster}
+%\VignetteKeywords{agreement index, cluster analysis, dissimilarity measure, K-nearest neighbor}
+%\VignettePackage{clues}
+
+
+\author{Fang Chang\\York University
+   \And Weiliang Qiu\\Harvard Medical School
+   \AND Ruben H. Zamar\\University of British Columbia
+   \And Ross Lazarus\\Harvard Medical School
+   \And Xiaogang Wang\\York University
+}
+\Plainauthor{Fang Chang, Weiliang Qiu, Ruben H. Zamar, Ross Lazarus, Xiaogang Wang}
+
+\title{\pkg{clues}: An \proglang{R} Package for Nonparametric Clustering Based on Local Shrinking}
+\Plaintitle{clues: An R Package for Nonparametric Clustering Based on Local Shrinking}
+\Shorttitle{\pkg{clues}: Nonparametric Clustering Based on Local Shrinking in \proglang{R}}
+
+\Volume{33}
+\Issue{4}
+\Month{February}
+\Year{2010}
+\Submitdate{2009-03-26}
+\Acceptdate{2010-01-31}
+
+\Abstract{
+This introduction to the \proglang{R} package \pkg{clues} is a (slightly)
+modified version of \cite{Chang+etal:2010}, published in the
+\emph{Journal of Statistical Software}. 
+
+Determining the optimal number of clusters appears to be
+a persistent and controversial issue in cluster analysis. Most
+existing \proglang{R} packages targeting clustering require the user
+to specify the number of clusters in advance. However, if this
+subjectively chosen number is far from optimal, clustering may
+produce seriously misleading results. In order to address this
+vexing problem, we develop the \proglang{R} package \pkg{clues} 
+to automate and evaluate the selection of an optimal number
+of clusters, which is widely applicable in the field of clustering analysis.
+Package \pkg{clues} uses two main procedures, shrinking and
+partitioning, to estimate an optimal number of clusters by
+maximizing an index function, either the CH index or the Silhouette
+index, rather than relying on guessing a pre-specified number. Five
+agreement indices (Rand index, Hubert and Arabie's adjusted Rand
+index, Morey and Agresti's adjusted Rand index, Fowlkes and Mallows
+index and Jaccard index), which measure the degree of agreement 
+between any two partitions, are also provided in \pkg{clues}. 
+In addition to numerical evidence, \pkg{clues} also
+supplies a deeper insight into the partitioning process with
+trajectory plots.}
+
+\Keywords{agreement index, cluster analysis, dissimilarity measure, $K$-nearest neighbor}
+\Plainkeywords{agreement index, cluster analysis, dissimilarity measure, K-nearest neighbor}
+
+\Address{
+Fang Chang, Xiaogang Wang\\
+Department of Mathematics and Statistics\\
+York University\\
+4700 Keele Street, Toronto, Canada\\
+E-mail: \email{changf@mathstat.yorku.ca}, \email{stevenw@mathstat.yorku.ca}\\
+
+Weiliang Qiu, Ross Lazarus\\
+Channing Laboratory, Department of Medicine\\
+Brigham and Women's Hospital, and Harvard Medical School\\
+181 Longwood Avenue, Boston, United States of America\\
+E-mail: \email{stwxq@channing.harvard.edu}, \email{ross.lazarus@channing.harvard.edu}\\
+
+Ruben H. Zamar\\
+Department of Statistics\\
+University of British Columbia\\
+333-6356 Agricultural Road, Canada\\
+E-mail: \email{ruben@stat.ubc.ca}
+}
+
+\begin{document}
+
+\section{Introduction}
+
+Cluster analysis, an organization of a collection of patterns into
+clusters based on selected similarity (or dissimilarity) measures, is
+an unsupervised technique which is widely applied by researchers
+from different disciplines. In dealing with real problems, decision
+makers should make as few assumptions about the data set as
+possible, because of the limited availability of prior information.
+This is a mature area in decision theory \citep{JainEtAl:1999}.
+Currently, $K$-means \citep{MacQueen:1967, HartiganWong:1979} is 
+one of the most popularly adopted partitioning algorithms, as
+evidenced by its use in a wide variety of packages in the \proglang{R}
+system for statistical computing \citep{R},
+such as \pkg{cclust} \citep{Dimtriadou:2009},
+\pkg{clue} \citep{Hornik:2005, Hornik:2008}, \pkg{clustTool} \citep{Templ:2008},
+among others. Another partitioning algorithm,
+PAM \citep{KaufmanRousseeuw:1990}, which is considered as a more
+robust version of $K$-means by partitioning of the data into $K$~clusters
+around medoids, is increasingly
+popular as seen in \pkg{cluster} \citep{Maechler:2009} and
+\pkg{fpc} \citep{Hennig:2007}. In addition to these partitioning
+clustering algorithms, an alternative approach, hierarchical
+clustering, is commonly used for microarray
+data \citep{ChipmanTibshirani:2006}. \proglang{R}~packages
+\pkg{hybirdHclust} \citep{ChipmanTibshirani:2008}, \pkg{segclust}
+\citep{PicardEtAl:2007, Picard:2008} and
+\pkg{mclust} \citep{FraleyRaftery:2002, FraleyRaftery:2008} use
+hierarchical clustering. The first takes advantage of both bottom-up
+clustering and top-down approaches, while the other two make use of
+probability-model-based hierarchical clustering.
+
+Even though more and more up to date \proglang{R} packages are
+created targeting different clustering approaches, the optimal
+identification of number of clusters remains relatively less
+developed. Among the packages mentioned above, some criteria have
+been proposed to identify an optimal number of clusters. For
+example, \pkg{fpc} chooses a figure which corresponds to the optimal
+average silhouette width criterion, \pkg{mclust} selects a number
+that coheres to the optimal BIC value and \pkg{segclust} picks a
+digit that is either in accordance with an optimal modified BIC
+\citep{ZhangSiegmund:2007} or the best sequential choice of Pselect
+and Kselect \citep{PicardEtAl:2007}.
+
+
+In this paper, we present a novel \proglang{R} package \pkg{clues}, which
+aims to simultaneously provide an estimate of the number of clusters
+and to obtain a partition of a data set via local shrinking. The shrinking
+procedure in \pkg{clues} is an implementation of the mean-shift
+algorithm, but is influenced by the $K$-nearest
+neighbor approach \citep{MackRosenblatt:1979} rather than kernel
+functions. For the value of $K$, we start with a small number and
+gradually increase it until the preferred measure of strength, CH
+index \citep{CalinskiHarabasz:1974} or Silhouette index
+\citep{KaufmanRousseeuw:1990}, is optimized \citep{WangEtAl:2007}.
+One important benefit of \pkg{clues} is its ability to identify
+and deal with irregular elements. In order to help validate the quality of
+the number of clusters and the clustering algorithm, five agreement indices are available to support decision making.
+
+This package is available from the Comprehensive \proglang{R} Archive Network
+at \url{http://CRAN.R-project.org/package=clues} and installable in the
+\proglang{R} version~2.8.1 or above. The package \pkg{clues} can be installed
+in the usual ways and is ready to use in an \proglang{R} session after typing
+<<>>=
+library("clues")
+@
+
+The layout for the rest of paper is as follows. Section~\ref{Section: brief algorithm} consists
+of a succinct statement of the algorithm. Section~\ref{Section: disMethods, agreement indices, and strength indices} 
+describes and
+illustrates the strength measures, dissimilarity measures, and
+agreement indices. Section~\ref{Section: data analysis} 
+depicts the utilization of clues
+functions not only numerically but also graphically. 
+A brief discussion follows in Section~\ref{Section: discussion}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Brief algorithm}
+\label{Section: brief algorithm}
+
+The rationale for the clues algorithm is to regard data points as
+particles in a gravitational field, initially with unit mass and zero velocity.
+Conceptually, the local gravitational field will pull each data
+point into a denser region according to some assumed gravitational laws and the
+distribution of other data points.
+
+
+The clues algorithm consists of the following three procedures:
+
+\begin{itemize}
+\item shrinking procedure,
+\item partition procedure,
+\item determination of the optimal $K$.
+\end{itemize}
+
+For the shrinking procedure, the original data set is
+calibrated in a way that pushes each data point towards its focal
+point, which serves as the cluster center or mode of the probability
+density function. The number $K$ is chosen iteratively. For a given
+$K$, due to the robustness of the median, each data point is
+designed to move to the element wise median of the set which
+consists of its $K$ nearest neighbors according to dissimilarity
+measures, either Euclidean distance or Pearson Correlation distance
+in \pkg{clues}. For this process, a user supplied stopping rule is required,
+beyond which excess iterations will not make a
+significant difference in terms of accuracy, although they will prolong the
+computing time. After this manipulation, the mutual gaps in the data become
+apparent.
+
+For the partitioning procedure, the calibrated data obtained from shrinking
+are used in place of the original data set. To start the partitioning procedure, one
+arbitrary data point is picked and replaced by its nearest fellow
+point, and their distance is recorded. We
+restart with this fellow point and repeat the first
+step. It is worth while to note that the selection
+is without replacement, so once a data point is picked for replacement, there is no
+opportunity for it to be chosen again in that run. In order to separate the groups, a
+benchmark $R$, which is defined as the summation of the mean
+distance and $1.5$ times the interquartile range(the difference between
+the first and third quartiles)is introduced. Denote $g$ as the
+group index that is initialized to be $1$ and once the distance between 
+a data point sorted by the above procedure and its fellow point
+surpasses $R$, a new group is started by increasing $g$ by $1$.
+
+The determination of the optimal $K$ involves optimizing the strength
+measure index, either CH or Silhouette. An arbitrary factor $\alpha$
+is introduced to improve the speed of the computation. While
+ $0.05$ is the default choice in \pkg{clues}, users can reset it
+according to personal preference and willingness to wait for computations to complete.
+We use $\alpha$ because the choice of $K$ has no effect on clustering
+result as long as it lies in a neighborhood of the optimal $K$, so it is chosen to
+minimize additional
+computation that will not substantially affect the outcome. The
+following two schemes are adopted to strengthen the power of the
+algorithm.
+
+\begin{itemize}
+\item Initialize $K$ to be $\alpha n$ and set the size of increment of $K$ to be $\alpha
+n$ for the following iterations.
+
+\item Within each iteration, use the calibrated data from the previous
+loop as the new data.
+\end{itemize}
+
+The overall process does not require any input other than external
+stopping rules. The combination of our shrinking procedure and the partitioning
+procedure allow the identification of an optimized $K$ compatible with our assumptions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Dissimilarity measures, agreement and strength indices}
+\label{Section: disMethods, agreement indices, and strength indices}
+
+Two common dissimilarity measures, ``Euclidean'' and ``$1-$Pearson
+Correlation'', are widely used. The range for
+``Euclidean'' distance is from $0$ to infinity, and the larger the
+value, the further apart the two points. The range for ``$1-$Pearson
+Correlation'' distance is from $0$ to $2$, and correlation is used
+as a benchmark here. Two variables with positive correlation $1$,
+have no dissimilarity,  while the larger the value, the more negative
+correlation between the variables. These measures are of
+great importance through the whole procedure since the neighbors of
+a data point are connected and recognized by their dissimilarity. To our
+knowledge, only \pkg{clues} and \pkg{hybridHclust} have
+implementations for both dissimilarity measures.
+
+It is important to know if a partition obtained by a clustering
+algorithm is good or not. One can compare the partition with other
+partitions obtained by other clustering algorithms. The more
+agreement among these partitions, the more confidence we have on the
+obtained partition. Lack of agreement among these partitions
+indicates either the cluster structure is difficult to detect or
+some clustering algorithms do not perform properly for this specific
+data set. In this situation, a strength index that measures the
+separation among clusters of the data set will be useful to indicate
+which partition is better for this specific data set. The larger the
+minimum separation a partition has, the better the partition is.
+
+Ideally, the larger a strength index is, the better the partition is.
+However, we should be cautious that
+strength indices proposed in the literature could not work as expected 
+for all types of data. We give such a counter-example in Section
+\ref{Section: Validation function: compClust}.
+Also some strength indices (such CH index mentioned below)
+are informative only when used to compare two or more clusterings
+for the same data set since they do not have finite upper bound.
+
+The \pkg{clues} package implements five agreement indices (Rand index,
+Hubert and Arabie's adjusted Rand index, Morey and Agresti's
+adjusted Rand index, Fowlkes and Mallows index, and Jaccard index)
+and two strength indices (CH index and averaged Silhouette index).
+
+These five agreement indices were recommended by \cite{MilliganCooper:1986},
+and each one takes values between $0$
+and $1$. They indicate how closely two partitions of the same data
+set match each other. The closer to $1$ the value, the more similarity
+between the two partitions, where $1$ means a perfect match. 
+
+The Silhouette
+index measures the average dissimilarity between a data point in a
+cluster to all the data points in the nearest neighboring cluster of
+this data point. The range of the Silhouette index is from $-1$ to
+$1$. The larger the Silhouette index, the more evidence we have that
+the data point does not belong to its nearest neighboring cluster.
+The average Silhouette is the average Silhouette index of all the data points.
+Therefore the range of average Silhouette is also $-1$ to $1$, which is identical to 
+that of Silhouette index. It is a cluster validity index which reflects the 
+compactness of the clusters and indicates whether a cluster structure is well separated 
+or not. The higher the average Silhouette index, the better the cluster separation.
+
+The CH
+index is the ratio of between cluster variation to within cluster
+variation and takes values between $0$ and $\infty$. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Data analysis using clues]{Data analysis using \pkg{clues}}
+\label{Section: data analysis}
+
+In this section, we use two real data sets from two different 
+disciplines to show how \pkg{clues} works. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection[Main function: clues]{Main function: \code{clues}}
+
+In \proglang{R}, a typical call for using \code{clues} is
+
+\begin{Code}
+clues(y, strengthMethod = "sil", disMethod = "Euclidean")
+\end{Code}
+
+The function documentation regarding explicit instruction on input arguments
+is given online by the command \verb+help(clues)+.
+
+A data matrix $y$ is the only compulsory input, and all the other arguments are optional
+which makes \code{clues} more convenient to use. Note that compared to other
+nonhierarchical clustering packages, \code{clues} avoids the 
+need for the input of the number of
+clusters to be subjectively assigned. 
+
+As an initial illustration, we consider the ``Wisconsin Diagnostic Breast Cancer'' data set
+\citep[\code{WDBC},][]{Asuncion+Newman:2007} with $569$ samples (rows) and  $32$ variables
+(columns). 
+The first column shows ID number, the second column is the diagnosis result which is either 
+``benign'' or ``malignant''. And it turns out to be $357$~benign and $212$~malignant with no missing values. 
+All the rest columns are real-valued numbers with each one standing 
+for certain index. The data set along with its detailed illustration on the source information is available 
+from UCL Machine Learning Repository \citep{Asuncion+Newman:2007}. 
+We take a first glance of the first 6~columns of the data: 
+
+<<>>=
+WDBC <- read.table("WDBC.dat", sep = ",", header = FALSE)
+colnames(WDBC) <- c("ID", "caco", paste("dim", 1:30, sep=""))
+
+# the true cluster membership
+WDBC.mem <- rep(NA, length(WDBC$caco))
+WDBC.mem[WDBC$caco == "M"] <- 1
+WDBC.mem[WDBC$caco == "B"] <- 2
+
+head(WDBC[, 1:6])
+@
+
+The variations of the 30 variables (not include $ID$ and $caco$) 
+are quite different. 
+<<>>=
+sdVec <- apply(WDBC[, -c(1:2)], 2, sd)
+round(quantile(sdVec), 3)
+@
+
+Hence, 
+we standardize each of these variables by subtracting its sample mean and then dividing its 
+sample standard deviation before applying function \code{clues} 
+on \code{WDBC} with the default options. 
+<<>>=
+dat <- as.matrix(WDBC[ , -c(1:2)])
+dat.s <- apply(dat, 2, scale, center = TRUE, scale = TRUE)
+colnames(dat.s)<-colnames(WDBC)[-c(1:2)]
+
+res.sil <- clues(dat.s, strengthMethod = "sil", disMethod = "Euclidean")
+@
+
+We can get a summary of the clustering results obtained by
+\code{clues} via the \code{summary} method:
+<<>>=
+summary(res.sil)
+@
+
+The number of clusters estimated by \code{clues}
+is $2$ which is exactly the same as the true number of clusters. 
+
+We also can visualize the clustering results by the \code{plot} method, 
+\begin{code}
+plot(obj),
+\end{code}
+where \code{obj} is the object returned by the function \code{clues}.
+The \code{plot} method combines the functions \code{plotClusters} and 
+\code{plotAvgCurves}. 
+A simple menu will prompt the user to choose
+to produce either scatter plot, or plot of average trajectories, or both.
+
+The following \proglang{R} code will produce scatter plot (Figure~\ref{Figure: scatter plot of WDBC}) for 
+four arbitrarily chosen dimensions (1, 4, 9, and 10):
+<<fig1, eval=FALSE>>=
+plotClusters(dat.s, res.sil$mem, plot.dim = c(1, 4, 9, 10),
+  cex.points = 0.01)
+@
+
+\begin{figure}[t!]
+\centering
+<<fig1a, echo = FALSE, results = hide, fig = TRUE, width = 7,height = 7>>=
+<<fig1>>
+@
+\caption{\label{Figure: scatter plot of WDBC} Pairwise scatter plots of four arbitarily chosen 
+dimensions. The two clusters obtained by \code{clues} are indicated by
+different symbols and colors.}
+\end{figure}
+
+The following \proglang{R} code will produce average trajectory plots
+(Figure~\ref{Figure: average trajectory for WDBC}) for the
+two clusters:
+<<fig2, eval=FALSE>>=
+plotAvgCurves(dat.s, res.sil$mem, cex.axis=0.3, ylim=c(-1, 1.5),
+  las=1, cex.axis=1)
+@
+
+\begin{figure}[t!]
+\centering
+<<fig2a, echo = FALSE, results = hide, fig = TRUE,width = 8,height = 4.5>>=
+<<fig2>>
+@
+\caption{\label{Figure: average trajectory for WDBC} Plots of average trajectories for the 2 clusters obtained by \code{clues} of the WDBC data set}
+\end{figure}
+
+Both the scatter plot and the plot of average trajectories show the two clusters
+are not separated and are difficult to detect.
+The low value of the average Silhouette index also confirms this:
+<<>>=
+get_Silhouette(dat.s,res.sil$mem)$avg.s
+@
+
+Now that the exact partition 
+(indicated by the variable \verb+caco+) is already given, 
+the accuracy of our method can be easily computed and 
+it is listed below with those of \code{kmeans} and \code{pam}. 
+The number of clusters
+required as input for \code{kmeans} and \code{pam} is specified as 
+the true number ($2$) of clusters.  
+<<>>=
+accuracy <- sum(WDBC.mem == res.sil$mem) / length(WDBC.mem)
+round(accuracy, 2)
+
+library("cluster")
+set.seed(12345)
+res.km <- kmeans(dat.s, 2, algorithm = "MacQueen")
+res.pam <- pam(dat.s, 2)
+
+accuracy.km <- sum(WDBC.mem == res.km$cluster) / length(WDBC.mem)
+round(accuracy.km, 2)
+
+accuracy.pam <- sum(WDBC.mem == res.pam$clustering) / length(WDBC.mem)
+round(accuracy.pam, 2)
+@
+
+Considering that the two clusters are not separated, the accuracy $0.94$ of
+\code{clues} is acceptable in this context compared to those of \code{kmeans} and \code{pam}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection[Validation function: compClust]{Validation function: \code{compClust}}
+\label{Section: Validation function: compClust}
+
+To view agreements among the partitions derived from different
+clustering methods, we can use the function \code{compClust}, which 
+calculates the values of five agreement indices mentioned in
+Section~\ref{Section: disMethods, agreement indices, and strength indices}
+for any pair of the 
+clustering methods considered. The syntax of \code{compClust} is listed below:
+\begin{Code}
+compClust(y, memMat, disMethod = "Euclidean")
+\end{Code}
+with
+\begin{itemize}
+\item \verb"y": input data in matrix or data frame form.
+\item \verb"memMat": cluster membership matrix with each column represents one partition.
+\item \verb"disMethod": dissimilarity measure, either \code{"Euclidean"} or \code{"1-corr"}.
+\end{itemize}
+
+The numeric output of this function also includes strength indices which
+consist of CH index and average Silhouette index.
+
+For \code{WDBC} data, we compared \code{clues} with both CH index and
+Silhouette index, \code{kmeans}, and \code{pam}  by using \code{compClust}.
+The clustering obtained from \code{clues} with CH is exactly the same as
+that obtained from \code{clues} with Silhouette index. Moreover, it is closer 
+to the true partition than those obtained from \code{kmeans} and 
+\code{pam} in terms of the five agreement indices  
+the degree of agreement between
+the partition obtained by \code{clues} with both CH index 
+and Silhouette index and the true partition
+is 0.89 in terms of Fowlkes and Mallows index, the degree
+reduced to 0.84 when we compare the partition
+obtained by kmeans with the true partition, and
+the degree reduced to 0.82 when we compare the partition
+obtained by pam with the true partition. 
+<<>>=
+res.CH <- clues(dat.s, strengthMethod = "CH", quiet = TRUE)
+memMat <- cbind(WDBC.mem, res.sil$mem, res.CH$mem, res.km$cluster, res.pam$clustering)
+colnames(memMat) <- c("true", "clues.sil", "clues.CH", "km", "pam")
+res<-compClust(dat.s, memMat)
+print(sapply(res, round, digits = 2))
+@
+
+The values of both strength indices for the true clustering are the smallest
+compared to the estimated clusterings obtained by clustering methods.
+This informs us that we need to be cautious to use the strength indices
+to compare different clustering methods.
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection[Sharpening function: shrinking]{Sharpening function: \code{shrinking}}
+
+The function \code{shrinking} provides a way to sharpen
+the boundaries among data groups. 
+The usage of the function is shown below:
+\begin{Code}
+shrinking(y, K, disMethod = "Euclidean", eps = 1e-04, itmax = 20)
+\end{Code}
+where \code{y} is the data matrix with data points as rows and variables as columns,
+\code{K} is the number of nearest neighbors, based on which coordinate-wise medians will be used to replace the old coordinates of a data point, \code{disMethod}
+indicates dissimilarity measurement, \code{eps} is a small positive number (a positive value below \code{eps} will be regarded as zero),
+and \code{itmax} indicates how many runs of data sharpening to be performed.
+
+We use
+the famous \code{iris} data set to illustrate this function \code{shrinking}.
+The \code{iris} \citep{Fisher:1936} data set 
+is the number 1 most popular data sets among the 187 data sets
+maintained at UCI Machine Learning Repository \citep{Asuncion+Newman:2007}.
+This data set consists of measurements of 
+sepal length and width, and petal length and width for 
+$3$ types (``setosa'', ``versicolor'' and ``virginica'') of iris flowers. 
+There are $50$ flowers in each type in the \code{iris} data set.
+
+Figure~\ref{Figure: original iris data} shows
+the pairwise scatter plots for the original iris data, while
+Figure~\ref{Figure: sharpened iris data} shows the pairwise
+scatter plots for the sharpened data (\code{K = 60} and \code{itmax = 3}).
+After data sharpening, 
+the three clusters are much clearer compared to the
+original \code{iris} data set. 
+
+<<fig3, echo=FALSE, eval=FALSE>>=
+pairs(jj, pch = 21, bg = c("red", "yellow", "purple")[unclass(iris$Species)])
+@
+
+<<fig4, echo=FALSE, eval=FALSE>>=
+pairs(shrinkres_jitter[, 1:4], pch = 21, bg = c("red", "purple", "yellow")[unclass(shrinkres_group)])
+@
+
+<<>>=
+data("iris")
+jj <- as.matrix(iris[,1:4])
+<<fig3>>
+shrinkres <- shrinking(jj, K = 60, disMethod = "Euclidean", itmax = 3)
+dimnames(shrinkres) <- dimnames(jj)
+convergepnts <- shrinkres[c(1, 51, 52, 54), ]
+row1 <- t(matrix(jitter(rep(convergepnts[1, ], 50)), nrow = 4))
+row2 <- t(matrix(jitter(rep(convergepnts[2, ], 51)), nrow = 4))
+row3 <- t(matrix(jitter(rep(convergepnts[3, ], 18)), nrow = 4))
+row4 <- t(matrix(jitter(rep(convergepnts[4, ], 31)), nrow = 4))
+shrinkres_jitter <- rbind(row1, row2, row3, row4)
+shrinkres_group <- as.factor(rep(1:3, c(50, 51, 49)))
+colnames(shrinkres_jitter) <- colnames(shrinkres) 
+<<fig4>>
+@
+
+\begin{figure}[t!]
+  \centering
+<<fig3a, echo=FALSE, results=hide, fig=TRUE,width=7,height=7>>=
+<<fig3>>
+@
+
+\caption{\label{Figure: original iris data} Pairwise scatter plots for the original iris data.}
+\end{figure}
+
+\begin{figure}[t!]
+\centering
+<<fig4a, echo=FALSE, results=hide, fig=TRUE,width=7,height=7>>=
+<<fig4>>
+@  
+\caption{\label{Figure: sharpened iris data} Pairwise scatter plot for sharpened iris data.}
+\end{figure}
+
+The number $K$ was picked by the authors for convenience, but can be
+changed by the user, and it is very likely that distinct values will
+produce variable results, because of some instability in the $K$
+nearest neighbor method.
+For example, if we choose a bigger $K=90$
+in \code{shrinking}, it will give us $2$ clusters rather than $3$. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+\label{Section: discussion}
+
+In this paper, we describe the methods and use of a recently developed
+clustering package \pkg{clues}. One major advantage of the novel \pkg{clues}
+algorithm is that it avoids the need of subjectively selecting a preassigned
+number of clusters, by iterative shrinking and clustering procedures. Secondly,
+it provides both numerical and graphical supports
+(\code{plotClusters}, \code{plotCurves} and \code{plotAvgCurves}) 
+to assess the quality of the resulting partitions. Thirdly, it
+provides objective methods for comparing different partitioning algorithms
+using several popular figures of merit. Last but not least, researchers can
+use this package, especially functions \code{adjustRand} and
+\code{compClust}, to assess a proposed clustering algorithm in their
+simulation studies where the true partition is known.
+
+We recommend that the users run the current version of \pkg{clues} 
+in the 
+background mode for large data sets due to that the search for $K$ nearest neighbors takes time.
+To get a rough idea about the relationship between running time
+and the number of clusters and the number of dimensions, 
+we conducted a small simulation study. 
+In this simulation study, each simulated data set contains two equal 
+sized clusters
+generated from two multivariate normal distributions.
+The covariance matrices are both identity matrices. The mean vector
+of the first cluster is the vector of five (i.e. all elements of the mean vector is 5). The mean vector of the second cluster is the vector of zero.
+The numbers of data points are 100, 250, 500, 750, 1000, 1500, and 2000, 
+respectively. The numbers of dimensions are 2, 5, 10, 20, and 30, respectively.
+For each combination of the number of data points and the number of 
+dimensions, we simulated 100 data sets.
+We conducted this simulation study in a personal computer with Microsoft
+Windows XP Professional operating system. The total physical memory is $4,100$ MB;
+total virtual memory is $2$ GB. The processor is x86 Family 6 Model 23 Stepping 7 GenuineIntel 2500 Mhz.
+
+
+The plot of log average of the total elapse times versus
+log number of data points (Figure~\ref{Figure: plot of running time vs number of data points}) indicates the
+running times scale roughly as 
+the square of the number of data points. 
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=0.8\textwidth]{log_running_time}
+\caption{Plot of log average of the total elapsed times vs log number of data points in a simulation study.}
+\label{Figure: plot of running time vs number of data points}
+\end{figure}
+
+
+The plot of log average of the total elapse times versus  
+log number of dimensions (Figure~\ref{Figure: plot of running time vs number of 
+dimensions}) indicates the
+running times increase linearly as 
+the number of dimensions increases. But the slopes are quite flat compared
+to those in Figure~\ref{Figure: plot of running time vs number of data points}.
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=0.8\textwidth]{log_running_time_p}
+\caption{Plot of log average of total elapsed times  versus log number of dimensions  in a simulation study.}
+\label{Figure: plot of running time vs number of dimensions}
+\end{figure}
+
+We will improve the speed of \pkg{clues} in future version
+by using more efficient $K$ nearest neighbor searching algorithm.
+
+
+\section*{Acknowledgments}
+
+The authors would like to thank referees and Editor Jan de Leeuw
+for their valuable comments and suggestions for much improved paper
+and package \pkg{clues}!
+The authors are also grateful to Dr.\ Vincent Carey at Channing
+Laboratory, Harvard Medical School, for valuable comments and suggestions. 
+Lazarus and Qiu's research was
+supported by grant R01 HG003646 from the National Institutes of
+Health.
+
+
+\bibliography{clues}
+
+\end{document}
+

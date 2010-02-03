@@ -1,0 +1,23 @@
+citHeader("To cite clues in publications use:")
+
+citEntry(entry = "Article",
+  title        = "{clues}: An {R} Package for Nonparametric Clustering Based on Local Shrinking",
+  author       = personList(as.person("Fang Chang"),
+                   as.person("Weiliang Qiu"),
+                   as.person("Ruben H. Zamar"),
+                   as.person("Ross Lazarus"),
+                   as.person("Xiaogang Wang")),
+  journal      = "Journal of Statistical Software",
+  year         = "2010",
+  volume       = "33",
+  number       = "4",
+  pages        = "1--16",
+  url          = "http://www.jstatsoft.org/v33/i04/",
+
+  textVersion  =
+  paste("Fang Chang, Weiliang Qiu, Ruben H. Zamar, Ross Lazarus, Xiaogang Wang (2010).",
+        "clues: An R Package for Nonparametric Clustering Based on Local Shrinking.",
+        "Journal of Statistical Software, 33(4), 1-16.",
+        "URL http://www.jstatsoft.org/v33/i04/.")
+)
+
