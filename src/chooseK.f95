@@ -61,8 +61,10 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
         i = dnint(0.1 * alpha * nObs)
         delta = max(i, 1)
         if(.not. quiet) then
-            write(*, *) 'second = TRUE, nNei = ', nNei, ' i = ', i, &
-                & ' delta = ', delta
+            !write(*, *) 'second = TRUE, nNei = ', nNei, ' i = ', i, &
+            !    & ' delta = ', delta
+            call intpr('second=TRUE, nNei=', -1, nNei, 6)
+            call dblepr('delta=', -1, delta, 6)
         endif
     endif 
  
@@ -102,9 +104,15 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
             minsize = minval(clustSize(1:nClusters))
            
             if(.not. quiet) then
-                write(*, *) 'myt = ', myt, ' nNei = ', nNei, & 
-                    & ' delta = ', delta, ' minsize = ', minsize, &
-                    & ' avgIndex = ', avgIndex, ' nClusters = ', nClusters
+                !write(*, *) 'myt = ', myt, ' nNei = ', nNei, & 
+                !    & ' delta = ', delta, ' minsize = ', minsize, &
+                !    & ' avgIndex = ', avgIndex, ' nClusters = ', nClusters
+                call dblepr('myt=', -1, myt, 6)
+                call intpr('nNei=', -1, nNei, 6)
+                call dblepr('delta=', -1, delta, 6)
+                call intpr('minsize=', -1, minsize, 6)
+                call dblepr('avgIndex=', -1, avgIndex, 6)
+                call intpr('nClusters=', -1, nClusters, 6)
             endif
            
             ! step 4.2
@@ -135,14 +143,16 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
             ! step 4.3
             if (nClustersFinal == 2) then
                 if(.not. quiet) then
-                    write(*, *) 'break 1'
+                    !write(*, *) 'break 1'
+                    call dblepr('break 1', -1, 0, 0)
                 endif
                 exit
             endif
            
             if (nClusters == 2) then
                 if(.not. quiet) then
-                    write(*, *) 'break 2'
+                    !write(*, *) 'break 2'
+                    call dblepr('break 2', -1, 0, 0)
                 endif
                 exit
             endif
@@ -155,8 +165,9 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
                     ! we require 0<nNei<nObs
                    
                     if(.not. quiet) then
-                        write(*, *) 'stop because nNei = ', nNei, & 
-                            & '>= nObs = ', nObs          
+                        !write(*, *) 'stop because nNei = ', nNei, & 
+                        !    & '>= nObs = ', nObs          
+                        call dblepr('stop because nNei >= nObs', -1, 0, 0)
                     endif
                     exit
                 endif
@@ -164,8 +175,9 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
                 if(nNei >= nNeiVec2(2)) then
                     ! stop because nNei > nNeiVec2(2)
                     if(.not. quiet) then
-                        write(*, *) 'stop because nNei = ', nNei, & 
-                            & '>= nNeiVec2(2) = ', nNeiVec2(2)          
+                        !write(*, *) 'stop because nNei = ', nNei, & 
+                        !    & '>= nNeiVec2(2) = ', nNeiVec2(2)          
+                        call dblepr('stop because nNei >= nNeiVec2(2)', -1, 0, 0)
                     endif
                     exit
                 endif
@@ -182,12 +194,14 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
             
             nNeiFinal = nNei
             if(.not. quiet) then
-                write(*, *) 'break 3'
+                !write(*, *) 'break 3'
+                call dblepr('break 3', -1, 0, 0)
             endif
             exit
         else
             if(.not. quiet) then
-                write(*, *) 'break 4'
+                !write(*, *) 'break 4'
+                call dblepr('break 4', -1, 0, 0)
             endif
             exit 
         endif
@@ -202,8 +216,10 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
  
     ! step 5  output the clustering result
     if(.not. quiet) then
-        write(*, *) 'final nNei = ', nNeiFinal, &
-            & ' final nClusters = ', nClustersFinal
+        !write(*, *) 'final nNei = ', nNeiFinal, &
+        !    & ' final nClusters = ', nClustersFinal
+        call intpr('final nNei=', -1, nNeiFinal, 6)
+        call intpr('final nClusters=', -1, nClustersFinal, 6)
     endif
 
 end subroutine chooseK

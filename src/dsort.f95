@@ -114,9 +114,12 @@ subroutine dsort(x, n, y)
     ! check the input arguments for errors
           
     if(n < 1) then
-        write(ipr, fm15) "***** fatal error--the second input argument to & 
-            & the sort   subroutine is non-positive *****"  
-        write(ipr, fm47) "***** the value of the argument is", n, "****" 
+        !write(ipr, fm15) "***** fatal error--the second input argument to & 
+        !    & the sort   subroutine is non-positive *****"  
+        !write(ipr, fm47) "***** the value of the argument is", n, "****" 
+        call dblepr("***** fatal error--the second input argument to & 
+            & the sort   subroutine is non-positive *****", -1, 0,0)
+        call intpr("***** the value of the argument is", -1, n, 6)
         return          
     elseif(n == 1) then
         y = x

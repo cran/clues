@@ -86,10 +86,15 @@ subroutine dmedian(x, n, iwrite, xmed)
           
     ! check the input arguments for errors
     if((n < 1) .or. (n > iupper)) then
-        write(ipr, fm17) "***** fatal error--the second input argument to & 
-            & the median subroutine is outside the allowable ", iupper,  &
-            & " interval *****"
-        write(ipr, fm47) "***** the value of the argument is ", n, " *****"
+        !write(ipr, fm17) "***** fatal error--the second input argument to & 
+        !    & the median subroutine is outside the allowable ", iupper,  &
+        !    & " interval *****"
+        !write(ipr, fm47) "***** the value of the argument is ", n, " *****"
+        call dblepr("**** fatal error--the second input argument to & 
+            & the median subroutine is outside the allowable &
+            &  interval *****", -1, 0, 0)
+        !write(ipr, fm47) "***** the value of the argument is ", n, " *****"
+        call intpr("***** the value of the argument is ", -1, n, 6)
         return
     elseif(n > 1) then
         hold = x(1)
