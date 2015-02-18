@@ -1,14 +1,21 @@
 # using CH index as the measure of the strength of the clusters
 clues_CH <- function(y, n0 = 5, alpha = 0.05, eps = 1.0e-4, itmax = 20,  
-  K2.vec = n0, CH2 = -3, disMethod = "Euclidean", quiet = FALSE)
+  K2.vec = NULL, CH2 = -3, disMethod = "Euclidean", quiet = FALSE)
 {
+    if(is.null(K2.vec))
+    {
+      K2.vec=n0
+    }
+
     disMethod <- match.arg(disMethod, c("Euclidean", "1-corr"))
     if(!is.matrix(y))
     { y <- matrix(y, ncol = 1) }
     # first pass
     second <- FALSE
-    res <- ChooseK_CH(y, y2 = y, n0, alpha, eps, itmax, second, K2.vec, CH2, 
-        disMethod, quiet)
+    res <- ChooseK_CH(y=y, y2 = y, n0=n0, alpha=alpha, 
+      eps=eps, itmax=itmax, second=second, 
+      K2.vec=K2.vec, CH2=CH2, 
+        disMethod=disMethod, quiet=quiet)
       
     # check if we need second pass
     # if length(g.vec) = 1 or g.vec[pos-1]=g.vec[pos]+1=g.vec[pos+1]-1,
@@ -36,8 +43,9 @@ clues_CH <- function(y, n0 = 5, alpha = 0.05, eps = 1.0e-4, itmax = 20,
         {   K2.vec <- c(K11, K12)
             # second pass
             second <- TRUE
-            res2 <- ChooseK_CH(y, y2 = res$y.old1, n0, alpha, eps, 
-                itmax, second, K2.vec, CH2, disMethod, quiet)
+            res2 <- ChooseK_CH(y=y, y2 = res$y.old1, n0=n0, alpha=alpha, 
+              eps=eps, itmax=itmax, second=second, K2.vec=K2.vec, 
+              CH2=CH2, disMethod=disMethod, quiet=quiet)
             if(res2$myupdate) # update the final partition
             {   CH2 <- res2$CH 
                 res <- res2
@@ -47,8 +55,10 @@ clues_CH <- function(y, n0 = 5, alpha = 0.05, eps = 1.0e-4, itmax = 20,
         {   K2.vec <- c(K21, K22)
             # second pass
             second <- TRUE
-            res3 <- ChooseK_CH(y, y2 = res$y.old2, n0, alpha, 
-                eps, itmax, second, K2.vec, CH2, disMethod, quiet)
+            res3 <- ChooseK_CH(y=y, y2 = res$y.old2, n0=n0, alpha=alpha, 
+              eps=eps, itmax=itmax, second=second, K2.vec=K2.vec, 
+              CH2=CH2, disMethod=disMethod, quiet=quiet)
+
             if(res3$myupdate) { res <- res3 }
         }
     }
@@ -61,9 +71,14 @@ clues_CH <- function(y, n0 = 5, alpha = 0.05, eps = 1.0e-4, itmax = 20,
 # y --- original data
 # y2 --- data used to do shrinking and clustering
 ChooseK_CH <- function(y, y2, n0 = 5, alpha = 0.05, eps = 1.0e-4, itmax = 20, 
-    second = FALSE, K2.vec = n0, CH2 = -3, disMethod = "Euclidean", 
+    second = FALSE, K2.vec = NULL, CH2 = -3, disMethod = "Euclidean", 
     quiet = FALSE)
 {
+    if(is.null(K2.vec))
+    {
+      K2.vec=n0
+    }
+
     disMethod <- match.arg(disMethod, c("Euclidean", "1-corr"))
     if(!is.matrix(y))
     { y <- matrix(y, ncol = 1) }

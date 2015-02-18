@@ -13,12 +13,17 @@ clues <- function(y,
     alpha = 0.05, 
     eps = 1.0e-4, 
     itmax = 20, 
-    K2.vec = n0, 
+    K2.vec = NULL, 
     strengthMethod = "sil", 
     strengthIni = -3, 
     disMethod = "Euclidean",
     quiet = TRUE)
 {
+    if(is.null(K2.vec))
+    {
+      K2.vec=n0
+    }
+
     strengthMethod <- match.arg(strengthMethod, c("sil", "CH"))
     disMethod <- match.arg(disMethod, c("Euclidean", "1-corr"))
  
@@ -30,11 +35,13 @@ clues <- function(y,
  
     if(strengthMethod == "CH")
     {
-        res <- clues_CH(y, n0, alpha, eps, itmax, K2.vec, 
-            strengthIni, disMethod, quiet)
+        res <- clues_CH(y=y, n0=n0, alpha=alpha, eps=eps, 
+          itmax=itmax, K2.vec=K2.vec,  CH2=strengthIni,
+            disMethod=disMethod, quiet=quiet)
     } else if (strengthMethod == "sil") {
-        res <- clues_sil(y, n0, alpha, eps, itmax, K2.vec, 
-            strengthIni, disMethod, quiet)
+        res <- clues_sil(y=y, n0=n0, alpha=alpha, eps=eps, itmax=itmax, 
+             K2.vec=K2.vec, s2=strengthIni, 
+             disMethod=disMethod, quiet=quiet)
     } else {
         stop("'strengthMethod' does not match 'CH' or 'sil'!\n")
     }

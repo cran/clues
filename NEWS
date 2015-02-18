@@ -1,0 +1,2 @@
+Feb. 12, 2015 v0.5.5
+fixed a bug: could not set 'K2.vec = n0' in the input when we define a function

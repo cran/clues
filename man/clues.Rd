@@ -7,7 +7,7 @@ get a partition.
 }
 \usage{
 clues(y, n0 = 5, alpha = 0.05, eps = 1.0e-4, itmax = 20, 
-    K2.vec = n0, strengthMethod = "sil", strengthIni = -3, 
+    K2.vec = NULL, strengthMethod = "sil", strengthIni = -3, 
     disMethod ="Euclidean", quiet = TRUE)
 }
 \arguments{

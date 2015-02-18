@@ -1,10 +1,11 @@
-a4a458f04f5a7939ad997c327b8e5179 *DESCRIPTION
+5172634ad9026294c674e9ddd3ff47b8 *DESCRIPTION
 9615c51b1a3025fd5ab944d2f40da8db *INDEX
 d2192b03a29affeffc52240c39971326 *NAMESPACE
+a3ae57479ccdd24b113974bf70ca26e4 *NEWS
 9fa5ce9e4c4b988c0ceaa6bacf7e05ef *R/adjustedRand.R
-4297d43bcc80d553a9449110c5db9d78 *R/clues.R
-2c42cef9abbc03746d2f756c8cf6a5e9 *R/clues_CH.R
-b01adaf9f234720320915cdbd9156031 *R/clues_sil.R
+7122d76726126e70568cde2daac8aad2 *R/clues.R
+3bb6edd6b5d3af8f4aca3c844c4e2b4b *R/clues_CH.R
+e9c1ebae40f2381aa36ba7f668213d73 *R/clues_sil.R
 fd434f43991ad74adb76e3736db88860 *R/clustering.R
 f1c74fd3d5b53eb645fd1e036e3cfd4b *R/compClust.R
 89405967bd15caa24343d69223ebff74 *R/rankDist.R
@@ -26,7 +27,7 @@ fd16d7968de8337c46a0c0d710acae3a *man/Curve.Rd
 bcd807630c6de52ef71e5248804cbbfd *man/Ring.Rd
 3a5befb07b53c4e0eddf966f9230b8ad *man/Vowel.Rd
 0262e228947096fc6857d11fb53b287d *man/adjustedRand.Rd
-a507ef17fb7cd26ebbdf628c0f923841 *man/clues.Rd
+5e93f9f1bf0602b216ce780ef33a3257 *man/clues.Rd
 f0ac7abc594796a5171895614cbdf8e1 *man/clustering.Rd
 21be225a1233fadfd213a77443fa90b1 *man/compClust.Rd
 ff34a506eb64bcb7119b6079e06420d4 *man/get_CH.Rd
