@@ -1,4 +1,6 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! ! revised by Weiliang Qiu Oct. 13, 2016 
+!  (1) changed 0.0 to 0.0d
 ! revised by Fang Chang and Weiliang Qiu Oct. 22, 2009 
 !    (1) changed from fotran77 format to fortan95 format 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -36,15 +38,23 @@ subroutine clustering(dat, nObs, nObs1, nVars, disMethod2, points, &
     integer :: kList(2), ell, S(nObs)
     integer :: pos1, pos2, L1, L2
     real(8) :: obsi(nVars), upp, low
-    real(8) :: dk(2), q1, q3, IQR
+    real(8) :: dk(2), q1, q3, IQR, zero
     real(8) :: dat2(nObs, nVars), db2(nObs1)
     
     nNei = 1
     nNei2 = 2
+    zero = 0.0D0
     
     ! Step 1. get pair-wise distances dij among shrinked data points
     points = 0
-    S = (/ (i, i = 1, nObs, 1) /)
+    
+    i = 1
+    if (nObs >= 1) then
+      S = (/ (i, i = 1, nObs, 1) /)    
+    else 
+      call exit
+    endif
+    
     sumS = sum(S)
     db(1:nObs1) = S(1:nObs1)
     
@@ -117,7 +127,7 @@ subroutine clustering(dat, nObs, nObs1, nVars, disMethod2, points, &
     IQR = q3 - q1
     
     upp = q3 + 1.5 * IQR
-    low = max(0.0, q1 - 1.5 * IQR)
+    low = max(zero, q1 - 1.5 * IQR)
     
     ! minimum of outlier distances 
     omin = minval(db, mask = (db > upp) .or. (db < low))

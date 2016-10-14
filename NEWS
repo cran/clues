@@ -1,2 +1,14 @@
+October 13, 2016 v0.5.9
+  (1) add "import(graphics)" to NAMESPACE and add "graphics" to DEPENDENCE
+  (2) fix a bug: 0.0 should be 0.0D0 in function 'clustering'
+  ("Using gfortran with options -Wall -pedantic to compile your package
+Fortran code finds important problems, see your package check pages for
+more information." - Kurt Hornik <Kurt.Hornik@wu.ac.at> (Aug 28, 2016))
+
+August 29, 2016 v0.5.7
+  use new format for DESCRIPTION file
+
+July 24, 2015 v0.5.6
+  fixed a bug in R function 'plot.clues': should not add "+1"
 Feb. 12, 2015 v0.5.5
 fixed a bug: could not set 'K2.vec = n0' in the input when we define a function

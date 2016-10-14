@@ -1,6 +1,7 @@
 useDynLib(clues)
 
 import(stats)
+import(graphics)
 importFrom(utils, menu)
 
 # functions

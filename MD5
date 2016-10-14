@@ -1,7 +1,7 @@
-5172634ad9026294c674e9ddd3ff47b8 *DESCRIPTION
+6b374333adb8c1db380034fc9c35829c *DESCRIPTION
 9615c51b1a3025fd5ab944d2f40da8db *INDEX
-d2192b03a29affeffc52240c39971326 *NAMESPACE
-a3ae57479ccdd24b113974bf70ca26e4 *NEWS
+fcca309f47709d93e8d9c9ea5b50c1ec *NAMESPACE
+a5ecd3fdb4c883cbb2460838e883c06a *NEWS
 9fa5ce9e4c4b988c0ceaa6bacf7e05ef *R/adjustedRand.R
 7122d76726126e70568cde2daac8aad2 *R/clues.R
 3bb6edd6b5d3af8f4aca3c844c4e2b4b *R/clues_CH.R
@@ -10,7 +10,7 @@ fd434f43991ad74adb76e3736db88860 *R/clustering.R
 f1c74fd3d5b53eb645fd1e036e3cfd4b *R/compClust.R
 89405967bd15caa24343d69223ebff74 *R/rankDist.R
 4fb40f7a88c323c57e50bf8085e97354 *R/shrinking.R
-6bd3f8b7a0c30629b74aa96e10ab3bf0 *R/view.R
+0294b820b18b928629c81e743cecd93f *R/view.R
 0dcaeff05c6c7eeb204674ccb6b961b7 *data/Curve.rda
 0c47381a373f4fe6e7671bd725bcf5ef *data/Maronna.rda
 d5f92636e5a7ef96e9c44bacc1cf80e0 *data/Ring.rda
@@ -42,7 +42,7 @@ ffd52a68b6f5e5930963af5eb647f073 *man/print.clues.Rd
 60173e37c636f4abdef9c1a0289cb2b3 *src/CH.f95
 6f5edc0fee49694433248b5ae8b527ac *src/adjustedRand.c
 24f1907e8c18c36adc2e1287d2db3af4 *src/chooseK.f95
-904dffc1a73bec5f5495b1455d74d721 *src/clustering2.f95
+7434b148472e69e9811a1c6922433818 *src/clustering2.f95
 45e66dd73098202b65b32b3aaa0d4c52 *src/dmedian.f95
 0c24b4b710bb38ea63f6aadfb34c26d2 *src/dsort.f95
 a5942daa8582b0ab81a435832bdf0203 *src/sharpen2.f95

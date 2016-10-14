@@ -260,7 +260,9 @@ function(x, ask = TRUE, plot.dim = NULL,
     repeat {
         if(!do.all)
             pick <- menu(tmenu, title =
-                "\nMake a plot selection (or 0 to exit):\n") + 1
+                "\nMake a plot selection (or 0 to exit):\n")
+            #pick <- menu(tmenu, title =
+            #    "\nMake a plot selection (or 0 to exit):\n") + 1
 
         if(pick == 1)
         {    
@@ -281,7 +283,8 @@ function(x, ask = TRUE, plot.dim = NULL,
         if(do.all) 
         { 
             pick <- pick + 1 
-            do.all <- pick <= length(tmenu) + 1
+            do.all <- pick <= length(tmenu)
+            #do.all <- pick <= length(tmenu) + 1
         }
     }
 

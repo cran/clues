@@ -1,15 +1,28 @@
 Package: clues
-Version: 0.5.6
-Date: 2015-02-18
-Title: Clustering Method Based on Local Shrinking
-Author: Fang Chang <changf@mathstat.yorku.ca>, Vincent Carey
-        <stvjc@channing.harvard.edu>, Weiliang Qiu
-        <stwxq@channing.harvard.edu>, Ruben H. Zamar
-        <ruben@stat.ubc.ca>, Ross Lazarus
-        <ross.lazarus@channing.harvard.edu>, Xiaogang Wang
-        <stevenw@mathstat.yorku.ca>
+Version: 0.5.9
+Date: 2016-10-13
+Title: Clustering Method Based on Local
+Authors@R: c(person("Fang", "Chang", role=c("aut", "ctb"),
+		     email = "changf@mathstat.yorku.ca"),
+             person("Weiliang", "Qiu", role=c("aut", "cre"),
+		     email = "stwxq@channing.harvard.edu"),
+	     person("Vincent", "Carey", role = c("aut", "ctb"),
+		     email = "stvjc@channing.harvard.edu"),
+	     person("Ruben H.", "Zamar", role = c("aut", "ctb"),
+		     email = "ruben@stat.ubc.ca"),
+	     person("Ross", "Lazarus", role = c("aut", "ctb"),
+		     email = "ross.lazarus@channing.harvard.edu"),
+	     person("Xiaogang", "Wang", role = c("aut", "ctb"),
+		     email = "stevenw@mathstat.yorku.ca")
+	    )
+Author: Fang Chang [aut, ctb], 
+	Weiliang Qiu [aut, cre],
+	Vincent Carey [aut, ctb],
+	Ruben H. Zamar [aut, ctb],
+	Ross Lazarus [aut, ctb],
+	Xiaogang Wang [aut, ctb]
 Maintainer: Weiliang Qiu <stwxq@channing.harvard.edu>
-Depends: R (>= 3.1.0), stats, utils
+Depends: R (>= 3.1.0), stats, utils, graphics
 Suggests: cluster
 Description: We developed the clues R package to provide functions 
         for automatically estimating the number of clusters and 
@@ -19,7 +32,7 @@ Description: We developed the clues R package to provide functions
         evaluate and compare the performances of partitions of a data
         set both numerically and graphically.
 License: GPL (>= 2)
-Packaged: 2015-02-18 16:45:27 UTC; stwxq
+Packaged: 2016-10-13 21:44:08 UTC; stwxq
 Repository: CRAN
-Date/Publication: 2015-02-18 19:33:00
+Date/Publication: 2016-10-14 08:16:08
 NeedsCompilation: yes
