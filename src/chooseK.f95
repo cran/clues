@@ -54,17 +54,17 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
     ! and initialize the increment delta of the number of 
     ! the nearest neighbors
     if (.not. second) then
-        nNei = dnint(alpha * nObs)
+        nNei = nint(alpha * nObs)
         delta = max(nNei, nClusters0)
     else
         nNei = nNeiVec2(1)
-        i = dnint(0.1 * alpha * nObs)
+        i = nint(0.1 * alpha * nObs)
         delta = max(i, 1)
         if(.not. quiet) then
             !write(*, *) 'second = TRUE, nNei = ', nNei, ' i = ', i, &
             !    & ' delta = ', delta
             call intpr('second=TRUE, nNei=', -1, nNei, 6)
-            call dblepr('delta=', -1, delta, 6)
+            call intpr('delta=', -1, delta, 6)
         endif
     endif 
  
@@ -107,9 +107,9 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
                 !write(*, *) 'myt = ', myt, ' nNei = ', nNei, & 
                 !    & ' delta = ', delta, ' minsize = ', minsize, &
                 !    & ' avgIndex = ', avgIndex, ' nClusters = ', nClusters
-                call dblepr('myt=', -1, myt, 6)
+                call intpr('myt=', -1, myt, 6)
                 call intpr('nNei=', -1, nNei, 6)
-                call dblepr('delta=', -1, delta, 6)
+                call intpr('delta=', -1, delta, 6)
                 call intpr('minsize=', -1, minsize, 6)
                 call dblepr('avgIndex=', -1, avgIndex, 6)
                 call intpr('nClusters=', -1, nClusters, 6)

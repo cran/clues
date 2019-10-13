@@ -1,3 +1,8 @@
+October 7, 2019 v0.6.1
+  (1) fixed a few bugs in R CMD check clues
+October 6, 2019 v0.6.0
+ (1) fixed a few bugs in C code and Fortran code: format mismatches
+ (2) change maintainer's email to weiliang.qiu@gmail.com
 October 13, 2016 v0.5.9
   (1) add "import(graphics)" to NAMESPACE and add "graphics" to DEPENDENCE
   (2) fix a bug: 0.0 should be 0.0D0 in function 'clustering'

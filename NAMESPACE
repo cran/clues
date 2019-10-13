@@ -1,4 +1,4 @@
-useDynLib(clues)
+useDynLib(clues, .registration = TRUE)
 
 import(stats)
 import(graphics)

@@ -1,11 +1,11 @@
 Package: clues
-Version: 0.5.9
-Date: 2016-10-13
+Version: 0.6.1
+Date: 2019-10-07
 Title: Clustering Method Based on Local
 Authors@R: c(person("Fang", "Chang", role=c("aut", "ctb"),
 		     email = "changf@mathstat.yorku.ca"),
              person("Weiliang", "Qiu", role=c("aut", "cre"),
-		     email = "stwxq@channing.harvard.edu"),
+		     email = "weiliang.qiu@gmail.com"),
 	     person("Vincent", "Carey", role = c("aut", "ctb"),
 		     email = "stvjc@channing.harvard.edu"),
 	     person("Ruben H.", "Zamar", role = c("aut", "ctb"),
@@ -15,13 +15,13 @@ Authors@R: c(person("Fang", "Chang", role=c("aut", "ctb"),
 	     person("Xiaogang", "Wang", role = c("aut", "ctb"),
 		     email = "stevenw@mathstat.yorku.ca")
 	    )
-Author: Fang Chang [aut, ctb], 
-	Weiliang Qiu [aut, cre],
-	Vincent Carey [aut, ctb],
-	Ruben H. Zamar [aut, ctb],
-	Ross Lazarus [aut, ctb],
-	Xiaogang Wang [aut, ctb]
-Maintainer: Weiliang Qiu <stwxq@channing.harvard.edu>
+Author: Fang Chang [aut, ctb],
+  Weiliang Qiu [aut, cre],
+  Vincent Carey [aut, ctb],
+  Ruben H. Zamar [aut, ctb],
+  Ross Lazarus [aut, ctb],
+  Xiaogang Wang [aut, ctb]
+Maintainer: Weiliang Qiu <weiliang.qiu@gmail.com>
 Depends: R (>= 3.1.0), stats, utils, graphics
 Suggests: cluster
 Description: We developed the clues R package to provide functions 
@@ -32,7 +32,7 @@ Description: We developed the clues R package to provide functions
         evaluate and compare the performances of partitions of a data
         set both numerically and graphically.
 License: GPL (>= 2)
-Packaged: 2016-10-13 21:44:08 UTC; stwxq
+Packaged: 2019-10-08 02:41:02 UTC; kunling
 Repository: CRAN
-Date/Publication: 2016-10-14 08:16:08
+Date/Publication: 2019-10-13 15:00:03 UTC
 NeedsCompilation: yes
