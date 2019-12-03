@@ -1,6 +1,6 @@
 Package: clues
-Version: 0.6.2.1
-Date: 2019-10-07
+Version: 0.6.2.2
+Date: 2019-12-03
 Title: Clustering Method Based on Local
 Authors@R: c(person("Fang", "Chang", role=c("aut", "ctb"),
 		     email = "changf@mathstat.yorku.ca"),
@@ -32,9 +32,9 @@ Description: We developed the clues R package to provide functions
         evaluate and compare the performances of partitions of a data
         set both numerically and graphically.
 License: GPL (>= 2)
-Packaged: 2019-12-03 07:55:52 UTC; ripley
+Packaged: 2019-12-03 18:49:54 UTC; ripley
 Repository: CRAN
-Date/Publication: 2019-12-03 09:43:10 UTC
+Date/Publication: 2019-12-03 18:50:33 UTC
 NeedsCompilation: yes
 X-CRAN-Original-Maintainer: Weiliang Qiu <weiliang.qiu@gmail.com>
 X-CRAN-Comment: Orphaned and corrected on 2019-12-03 as Fortran errors

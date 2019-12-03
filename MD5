@@ -1,4 +1,4 @@
-0b262047df50d03930ee56e3d02c0b07 *DESCRIPTION
+26c0b83c267e8742d0c1e29bba654d29 *DESCRIPTION
 9615c51b1a3025fd5ab944d2f40da8db *INDEX
 e1f0c1be18f9dcc3abf1d372bcc8d432 *NAMESPACE
 9cd414341195bfe5222001084567897e *NEWS
@@ -40,11 +40,11 @@ ffd52a68b6f5e5930963af5eb647f073 *man/print.clues.Rd
 0f3a52416f220756aaf3fc0e5a35eaa8 *man/shrinking.Rd
 6bd3bed51313f79030d2ebf67f6486ae *man/summary.clues.Rd
 60173e37c636f4abdef9c1a0289cb2b3 *src/CH.f95
-0b6777542874eb88546f6d09d83a845f *src/adjustedRand.c
+824edd84b25b1ba5e4bfe0c86277eeb6 *src/adjustedRand.c
 529885a0b46288225e94d1e7c6764e44 *src/chooseK.f95
 7434b148472e69e9811a1c6922433818 *src/clustering2.f95
-45e66dd73098202b65b32b3aaa0d4c52 *src/dmedian.f95
-0c24b4b710bb38ea63f6aadfb34c26d2 *src/dsort.f95
+92006f574b4abf288a58a0e4dc4b2378 *src/dmedian.f95
+9bee39569723cf79584526399cb0da1a *src/dsort.f95
 7c22b1b500cab25872924e218f1645f5 *src/registerDynamicSymbol.c
 a5942daa8582b0ab81a435832bdf0203 *src/sharpen2.f95
 551db88ca4b48126cb282bb80ceabb6e *src/silhouette3.f95

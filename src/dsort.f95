@@ -117,7 +117,7 @@ subroutine dsort(x, n, y)
         !write(ipr, fm15) "***** fatal error--the second input argument to & 
         !    & the sort   subroutine is non-positive *****"  
         !write(ipr, fm47) "***** the value of the argument is", n, "****" 
-        call dblepr("***** fatal error--the second input argument to & 
+        call intpr("***** fatal error--the second input argument to & 
             & the sort   subroutine is non-positive *****", -1, 0,0)
         call intpr("***** the value of the argument is", -1, n, 6)
         return          

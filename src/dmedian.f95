@@ -90,7 +90,7 @@ subroutine dmedian(x, n, iwrite, xmed)
         !    & the median subroutine is outside the allowable ", iupper,  &
         !    & " interval *****"
         !write(ipr, fm47) "***** the value of the argument is ", n, " *****"
-        call dblepr("**** fatal error--the second input argument to & 
+        call intpr("**** fatal error--the second input argument to & 
             & the median subroutine is outside the allowable &
             &  interval *****", -1, 0, 0)
         !write(ipr, fm47) "***** the value of the argument is ", n, " *****"
