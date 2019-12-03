@@ -144,7 +144,7 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
             if (nClustersFinal == 2) then
                 if(.not. quiet) then
                     !write(*, *) 'break 1'
-                    call dblepr('break 1', -1, 0, 0)
+                    call intpr('break 1', -1, 0, 0)
                 endif
                 exit
             endif
@@ -152,7 +152,7 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
             if (nClusters == 2) then
                 if(.not. quiet) then
                     !write(*, *) 'break 2'
-                    call dblepr('break 2', -1, 0, 0)
+                    call intpr('break 2', -1, 0, 0)
                 endif
                 exit
             endif
@@ -167,7 +167,7 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
                     if(.not. quiet) then
                         !write(*, *) 'stop because nNei = ', nNei, & 
                         !    & '>= nObs = ', nObs          
-                        call dblepr('stop because nNei >= nObs', -1, 0, 0)
+                        call intpr('stop because nNei >= nObs', -1, 0, 0)
                     endif
                     exit
                 endif
@@ -177,7 +177,7 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
                     if(.not. quiet) then
                         !write(*, *) 'stop because nNei = ', nNei, & 
                         !    & '>= nNeiVec2(2) = ', nNeiVec2(2)          
-                        call dblepr('stop because nNei >= nNeiVec2(2)', -1, 0, 0)
+                        call intpr('stop because nNei >= nNeiVec2(2)', -1, 0, 0)
                     endif
                     exit
                 endif
@@ -195,13 +195,13 @@ subroutine chooseK(dat, dat2, nObs, nObs1, nVars, nClusters0, &
             nNeiFinal = nNei
             if(.not. quiet) then
                 !write(*, *) 'break 3'
-                call dblepr('break 3', -1, 0, 0)
+                call intpr('break 3', -1, 0, 0)
             endif
             exit
         else
             if(.not. quiet) then
                 !write(*, *) 'break 4'
-                call dblepr('break 4', -1, 0, 0)
+                call intpr('break 4', -1, 0, 0)
             endif
             exit 
         endif

@@ -1,4 +1,4 @@
-5aa69755e26c8f9eb6e1057969ffa9d1 *DESCRIPTION
+0b262047df50d03930ee56e3d02c0b07 *DESCRIPTION
 9615c51b1a3025fd5ab944d2f40da8db *INDEX
 e1f0c1be18f9dcc3abf1d372bcc8d432 *NAMESPACE
 9cd414341195bfe5222001084567897e *NEWS
@@ -41,7 +41,7 @@ ffd52a68b6f5e5930963af5eb647f073 *man/print.clues.Rd
 6bd3bed51313f79030d2ebf67f6486ae *man/summary.clues.Rd
 60173e37c636f4abdef9c1a0289cb2b3 *src/CH.f95
 0b6777542874eb88546f6d09d83a845f *src/adjustedRand.c
-ca7af8c0fdd6c8e6ace7821b471ae8e2 *src/chooseK.f95
+529885a0b46288225e94d1e7c6764e44 *src/chooseK.f95
 7434b148472e69e9811a1c6922433818 *src/clustering2.f95
 45e66dd73098202b65b32b3aaa0d4c52 *src/dmedian.f95
 0c24b4b710bb38ea63f6aadfb34c26d2 *src/dsort.f95
